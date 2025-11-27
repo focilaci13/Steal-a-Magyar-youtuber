@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Steal a Magyar YouTuber</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%); min-height: 100vh; color: #fff; overflow-x: hidden; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+        header { display: flex; justify-content: space-between; align-items: center; padding: 20px 0; border-bottom: 1px solid rgba(255,255,255,0.1); }
+        .logo { font-size: 28px; font-weight: bold; color: #e94560; display: flex; align-items: center; gap: 10px; cursor: pointer; }
+        .youtube-icon { width: 40px; height: 28px; background: #FF0000; border-radius: 8px; display: flex; align-items: center; justify-content: center; animation: pulse 2s infinite; }
+        .youtube-icon::after { content: ""; border-left: 12px solid white; border-top: 7px solid transparent; border-bottom: 7px solid transparent; }
+        .youtube-icon-big { width: 60px; height: 42px; background: #FF0000; border-radius: 12px; display: inline-flex; align-items: center; justify-content: center; animation: pulse 2s infinite; vertical-align: middle; margin-right: 15px; }
+        .youtube-icon-big::after { content: ""; border-left: 18px solid white; border-top: 10px solid transparent; border-bottom: 10px solid transparent; }
+        .yt-particles { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 50; overflow: hidden; }
+        .yt-particle { position: absolute; background: #FF0000; border-radius: 8px; display: flex; align-items: center; justify-content: center; opacity: 0; box-shadow: 0 0 20px rgba(255, 0, 0, 0.5), 0 0 40px rgba(255, 0, 0, 0.3); }
+        .yt-particle::after { content: ""; border-left: solid white; border-top: solid transparent; border-bottom: solid transparent; }
+        .yt-particle.small { width: 30px; height: 21px; }
+        .yt-particle.small::after { border-left-width: 8px; border-top-width: 5px; border-bottom-width: 5px; }
+        .yt-particle.medium { width: 45px; height: 32px; }
+        .yt-particle.medium::after { border-left-width: 12px; border-top-width: 7px; border-bottom-width: 7px; }
+        .yt-particle.large { width: 60px; height: 42px; }
+        .yt-particle.large::after { border-left-width: 16px; border-top-width: 9px; border-bottom-width: 9px; }
+        @keyframes floatUp { 0% { transform: translateY(100vh) rotate(0deg) scale(0.5); opacity: 0; } 10% { opacity: 0.8; } 90% { opacity: 0.8; } 100% { transform: translateY(-100px) rotate(360deg) scale(1); opacity: 0; } }
+        @keyframes floatDiagonal { 0% { transform: translate(0, 100vh) rotate(0deg); opacity: 0; } 10% { opacity: 0.7; } 90% { opacity: 0.7; } 100% { transform: translate(100px, -100px) rotate(180deg); opacity: 0; } }
+        @keyframes floatSway { 0% { transform: translateY(100vh) translateX(0) rotate(-15deg); opacity: 0; } 10% { opacity: 0.6; } 25% { transform: translateY(75vh) translateX(30px) rotate(0deg); } 50% { transform: translateY(50vh) translateX(-30px) rotate(15deg); } 75% { transform: translateY(25vh) translateX(30px) rotate(0deg); } 90% { opacity: 0.6; } 100% { transform: translateY(-100px) translateX(0) rotate(-15deg); opacity: 0; } }
+        @keyframes glowPulse { 0%, 100% { box-shadow: 0 0 20px rgba(255, 0, 0, 0.5), 0 0 40px rgba(255, 0, 0, 0.3); } 50% { box-shadow: 0 0 40px rgba(255, 0, 0, 0.8), 0 0 80px rgba(255, 0, 0, 0.5), 0 0 120px rgba(255, 0, 0, 0.3); } }
+        @keyframes pulse { 0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 0, 0, 0.7); } 50% { transform: scale(1.05); box-shadow: 0 0 20px 5px rgba(255, 0, 0, 0.4); } }
+        @keyframes float { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-10px); } }
+        @keyframes glow { 0%, 100% { text-shadow: 0 0 20px rgba(233, 69, 96, 0.5), 0 0 40px rgba(255, 0, 0, 0.3); } 50% { text-shadow: 0 0 40px rgba(233, 69, 96, 0.8), 0 0 80px rgba(255, 0, 0, 0.5); } }
+        @keyframes slideIn { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+        nav a { color: #fff; text-decoration: none; margin-left: 30px; transition: all 0.3s; position: relative; cursor: pointer; }
+        nav a:hover, nav a.active { color: #FF0000; text-shadow: 0 0 10px rgba(255, 0, 0, 0.5); }
+        nav a::after { content: ""; position: absolute; bottom: -5px; left: 0; width: 0; height: 2px; background: #FF0000; transition: width 0.3s; }
+        nav a:hover::after, nav a.active::after { width: 100%; }
+        .page { display: none; }
+        .page.active { display: block; }
+        .hero { text-align: center; padding: 100px 20px; position: relative; }
+        .hero h1 { font-size: 52px; margin-bottom: 20px; animation: glow 3s infinite, float 4s ease-in-out infinite; background: linear-gradient(45deg, #e94560, #FF0000, #e94560); background-size: 200% 200%; -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; display: inline-flex; align-items: center; justify-content: center; }
+        .hero > p { font-size: 20px; color: #ccc; margin-bottom: 40px; animation: slideIn 1s ease-out; }
+        .game-description { background: rgba(255, 0, 0, 0.1); border: 1px solid rgba(255, 0, 0, 0.3); border-radius: 20px; padding: 30px; margin: 40px auto; max-width: 800px; animation: slideIn 1.2s ease-out; }
+        .game-description h2 { color: #FF0000; margin-bottom: 15px; text-align: center; }
+        .game-description p { font-size: 18px; line-height: 1.8; color: #ddd; }
+        .how-to-play { background: rgba(88, 101, 242, 0.1); border: 1px solid rgba(88, 101, 242, 0.3); border-radius: 20px; padding: 30px; margin: 40px auto; max-width: 800px; animation: slideIn 1.4s ease-out; }
+        .how-to-play h2 { color: #5865F2; margin-bottom: 20px; text-align: center; }
+        .how-to-play ul { list-style: none; text-align: left; font-size: 18px; }
+        .how-to-play li { padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.1); }
+        .buttons { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; margin-top: 30px; }
+        .btn { display: inline-flex; align-items: center; gap: 10px; padding: 15px 40px; background: #e94560; color: #fff; text-decoration: none; border-radius: 30px; font-weight: bold; transition: all 0.3s; position: relative; overflow: hidden; }
+        .btn::before { content: ""; position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent); transition: left 0.5s; }
+        .btn:hover::before { left: 100%; }
+        .btn:hover { transform: translateY(-3px); box-shadow: 0 10px 30px rgba(233, 69, 96, 0.4); }
+        .btn-roblox { background: #00A2FF; }
+        .btn-roblox:hover { box-shadow: 0 10px 30px rgba(0, 162, 255, 0.4); }
+        .btn-discord { background: #5865F2; }
+        .btn-discord:hover { box-shadow: 0 10px 30px rgba(88, 101, 242, 0.4); }
+        .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; padding: 60px 0; }
+        .feature-card { background: rgba(255,255,255,0.05); padding: 30px; border-radius: 15px; text-align: center; transition: all 0.3s; border: 1px solid transparent; animation: slideIn 1s ease-out; }
+        .feature-card:hover { transform: translateY(-10px) scale(1.02); border-color: rgba(255, 0, 0, 0.3); box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3); }
+        .feature-card h3 { color: #FF0000; margin-bottom: 15px; font-size: 24px; }
+        .staff-section { background: rgba(255,255,255,0.05); border-radius: 20px; padding: 30px; margin: 40px 0; }
+        .staff-section h2 { color: #e94560; text-align: center; margin-bottom: 30px; }
+        .staff-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; }
+        .staff-card { background: rgba(255,255,255,0.05); padding: 20px; border-radius: 15px; text-align: center; transition: all 0.3s; }
+        .staff-card:hover { transform: scale(1.05); background: rgba(255,255,255,0.1); }
+        .staff-card .name { font-size: 18px; font-weight: bold; color: #fff; }
+        .staff-card .role { color: #e94560; font-size: 14px; margin-top: 5px; }
+        footer { text-align: center; padding: 30px; border-top: 1px solid rgba(255,255,255,0.1); color: #888; }
+        .social-links { display: flex; justify-content: center; gap: 20px; margin-bottom: 20px; }
+        .social-links a { width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 24px; transition: all 0.3s; text-decoration: none; }
+        .social-links .roblox-link { background: #00A2FF; color: white; }
+        .social-links .discord-link { background: #5865F2; color: white; }
+        .social-links a:hover { transform: scale(1.2) rotate(10deg); }
+        .stats { display: flex; justify-content: center; gap: 40px; margin: 20px 0; flex-wrap: wrap; }
+        .stat-item { text-align: center; }
+        .stat-item .number { font-size: 32px; font-weight: bold; color: #e94560; }
+        .stat-item .label { color: #888; }
+        .discord-info { background: rgba(88, 101, 242, 0.1); border: 1px solid rgba(88, 101, 242, 0.3); border-radius: 20px; padding: 30px; margin: 40px auto; max-width: 800px; }
+        .discord-info h2 { color: #5865F2; margin-bottom: 20px; text-align: center; }
+        .discord-info p { font-size: 18px; line-height: 1.8; color: #ddd; margin-bottom: 15px; }
+        .discord-stats { display: flex; justify-content: center; gap: 60px; margin: 30px 0; flex-wrap: wrap; }
+        .discord-stat { text-align: center; }
+        .discord-stat .number { font-size: 42px; font-weight: bold; color: #5865F2; }
+        .discord-stat .label { color: #888; font-size: 16px; }
+        .page-title { text-align: center; padding: 60px 20px 20px; }
+        .page-title h1 { font-size: 48px; color: #e94560; margin-bottom: 10px; }
+        .page-title p { color: #888; font-size: 18px; }
+    </style>
+</head>
+<body>
+    <!-- YouTube logók particle rendszer -->
+    <div class="yt-particles" id="ytParticles"></div>
+
+    <div class="container">
+        <header>
+            <div class="logo" onclick="showPage('home')"><div class="youtube-icon"></div>Steal a Magyar YouTuber</div>
+            <nav>
+                <a onclick="showPage('home')" class="active">Főoldal</a>
+                <a onclick="showPage('game')">Játék</a>
+                <a onclick="showPage('community')">Közösség</a>
+            </nav>
+        </header>
+
+        <!-- FŐOLDAL -->
+        <div id="home" class="page active">
+            <section class="hero">
+                <h1><div class="youtube-icon-big"></div>Steal a Magyar YouTuber</h1>
+                <p>Üdvözlünk a Steal a Magyar YouTuber-ben!</p>
+                <div class="stats">
+                    <div class="stat-item"><div class="number">361+</div><div class="label">Discord tag</div></div>
+                    <div class="stat-item"><div class="number">67+</div><div class="label">Online játékos</div></div>
+                </div>
+                <div class="buttons">
+                    <a href="https://www.roblox.com/games/140082406464674/Steal-a-Magyar-Youtuber" target="_blank" class="btn btn-roblox">&#127918; Játék Indítása</a>
+                    <a href="https://discord.gg/eX6JdCeUuH" target="_blank" class="btn btn-discord">&#128172; Discord Szerver</a>
+                </div>
+            </section>
+            <section class="features">
+                <div class="feature-card"><h3>&#127909; YouTuberek</h3><p>Gyűjtsd össze a kedvenc magyar YouTubereidet!</p></div>
+                <div class="feature-card"><h3>&#129399; Lopás</h3><p>Lopd el más játékosok YouTubereit!</p></div>
+                <div class="feature-card"><h3>&#127942; Rebirth</h3><p>Kezdj újra és keress még több pénzt!</p></div>
+            </section>
+            <section class="staff-section">
+                <h2>&#128081; Vezetőség</h2>
+                <div class="staff-grid">
+                    <div class="staff-card"><div class="name">Kris3DLab</div><div class="role">&#128081; Tulaj</div></div>
+                    <div class="staff-card"><div class="name">Benedek</div><div class="role">&#11088; Fő Admin</div></div>
+                    <div class="staff-card"><div class="name">Mosolygó tehén</div><div class="role">&#128737; Admin</div></div>
+                    <div class="staff-card"><div class="name">Laxon</div><div class="role">&#128296; Mod</div></div>
+                    <div class="staff-card"><div class="name">Tx7</div><div class="role">&#128296; Mod</div></div>
+                    <div class="staff-card"><div class="name">Soo</div><div class="role">&#128296; Mod</div></div>
+                </div>
+            </section>
+        </div>
+
+        <!-- JÁTÉK OLDAL -->
+        <div id="game" class="page">
+            <div class="page-title">
+                <h1>&#127918; A Játékról</h1>
+                <p>Minden információ a Steal a Magyar YouTuber játékról</p>
+            </div>
+            <div class="game-description">
+                <h2>&#9654; Miről szól a játék?</h2>
+                <p>Lépj be a magyar YouTube világába és válj a legjobb YouTuber gyűjtővé!<br><br>
+                Vásárolj YouTubereket, lopd el őket más játékosoktól, és építsd fel a saját birodalmadat! Generálj pénzt, végezz Rebirth-et hogy még több pénzt keress, és szerezz pofonokat meg troll felszereléseket!<br><br>
+                A játék 2025 októberében indult és azóta folyamatosan fejlődik új tartalmakkal és funkciókkal!</p>
+            </div>
+            <div class="how-to-play">
+                <h2>&#128218; Hogyan kell játszani?</h2>
+                <ul>
+                    <li>&#128125; Vásárolj egy YouTubert</li>
+                    <li>&#129399; Lopj YouTubereket más játékosoktól</li>
+                    <li>&#128176; Generálj pénzt</li>
+                    <li>&#128293; Kezdj Újra (Rebirth), hogy minél több pénzt keress!</li>
+                    <li>&#9995; Vásárolj pofonokat és troll felszerelést</li>
+                </ul>
+            </div>
+            <section class="features">
+                <div class="feature-card"><h3>&#127909; YouTuberek</h3><p>Gyűjtsd össze a kedvenc magyar YouTubereidet!</p></div>
+                <div class="feature-card"><h3>&#129399; Lopás</h3><p>Lopd el más játékosok YouTubereit!</p></div>
+                <div class="feature-card"><h3>&#127942; Rebirth</h3><p>Kezdj újra és keress még több pénzt!</p></div>
+            </section>
+            <div class="buttons" style="padding: 40px 0;">
+                <a href="https://www.roblox.com/games/140082406464674/Steal-a-Magyar-Youtuber" target="_blank" class="btn btn-roblox" style="font-size: 20px; padding: 20px 50px;">&#127918; Játék Indítása Robloxon</a>
+            </div>
+        </div>
+
+        <!-- KÖZÖSSÉG OLDAL -->
+        <div id="community" class="page">
+            <div class="page-title">
+                <h1>&#128172; Közösség</h1>
+                <p>Csatlakozz a Steal a Magyar YouTuber Discord szerverhez!</p>
+            </div>
+            <div class="discord-info">
+                <h2>&#128172; Discord Szerver</h2>
+                <p>Üdvözlünk a Steal a Magyar YouTuber hivatalos Discord szerverén! Itt megtalálsz mindent, amire szükséged van: hírek, frissítések, közösségi események és segítség a játékhoz.</p>
+                <div class="discord-stats">
+                    <div class="discord-stat"><div class="number">361+</div><div class="label">Tag</div></div>
+                    <div class="discord-stat"><div class="number">67+</div><div class="label">Online</div></div>
+                </div>
+                <p style="text-align: center; margin-top: 20px;">&#128197; <strong>Szerver indulása:</strong> 2025. október</p>
+            </div>
+            <section class="staff-section">
+                <h2>&#128081; Vezetőség</h2>
+                <div class="staff-grid">
+                    <div class="staff-card"><div class="name">Kris3DLab</div><div class="role">&#128081; Tulaj</div></div>
+                    <div class="staff-card"><div class="name">Benedek</div><div class="role">&#11088; Fő Admin</div></div>
+                    <div class="staff-card"><div class="name">Mosolygó tehén</div><div class="role">&#128737; Admin</div></div>
+                    <div class="staff-card"><div class="name">Laxon</div><div class="role">&#128296; Mod</div></div>
+                    <div class="staff-card"><div class="name">Tx7</div><div class="role">&#128296; Mod</div></div>
+                    <div class="staff-card"><div class="name">Soo</div><div class="role">&#128296; Mod</div></div>
+                </div>
+            </section>
+            <div class="how-to-play">
+                <h2>&#127775; Mit találsz a szerveren?</h2>
+                <ul>
+                    <li>&#128227; Játék hírek és frissítések</li>
+                    <li>&#128172; Közösségi chat</li>
+                    <li>&#127881; Események és nyereményjátékok</li>
+                    <li>&#128736; Segítség és support</li>
+                    <li>&#128161; Ötletek és javaslatok</li>
+                </ul>
+            </div>
+            <div class="buttons" style="padding: 40px 0;">
+                <a href="https://discord.gg/eX6JdCeUuH" target="_blank" class="btn btn-discord" style="font-size: 20px; padding: 20px 50px;">&#128172; Csatlakozás a Discord Szerverhez</a>
+            </div>
+        </div>
+
+        <footer>
+            <div class="social-links">
+                <a href="https://www.roblox.com/games/140082406464674/Steal-a-Magyar-Youtuber" target="_blank" class="roblox-link">&#127918;</a>
+                <a href="https://discord.gg/eX6JdCeUuH" target="_blank" class="discord-link">&#128172;</a>
+            </div>
+            <p>&#169; 2025 Steal a Magyar YouTuber - Minden jog fenntartva</p>
+            <p>Lájkold a játékot és csatlakozz a csoporthoz!</p>
+        </footer>
+    </div>
+
+    <script>
+        function showPage(pageId) {
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+            document.getElementById(pageId).classList.add('active');
+            document.querySelectorAll('nav a').forEach(link => {
+                link.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            window.scrollTo(0, 0);
+        }
+
+        // YouTube particle rendszer
+        function createYTParticle() {
+            const container = document.getElementById('ytParticles');
+            const particle = document.createElement('div');
+            particle.className = 'yt-particle';
+
+            // Random meeret
+            const sizes = ['small', 'medium', 'large'];
+            const size = sizes[Math.floor(Math.random() * sizes.length)];
+            particle.classList.add(size);
+
+            // Random pozicio (bal vagy jobb oldal)
+            const side = Math.random() > 0.5 ? 'left' : 'right';
+            if (side === 'left') {
+                particle.style.left = Math.random() * 120 + 'px';
+            } else {
+                particle.style.right = Math.random() * 120 + 'px';
+            }
+
+            // Random animacio
+            const animations = ['floatUp', 'floatDiagonal', 'floatSway'];
+            const animation = animations[Math.floor(Math.random() * animations.length)];
+            const duration = 8 + Math.random() * 12;
+
+            particle.style.animation = `${animation} ${duration}s ease-in-out forwards, glowPulse 2s ease-in-out infinite`;
+
+            container.appendChild(particle);
+
+            // Torles animacio utan
+            setTimeout(() => {
+                particle.remove();
+            }, duration * 1000);
+        }
+
+        // Particle-ok inditasa
+        setInterval(createYTParticle, 800);
+
+        // Kezdeti particle-ok
+        for (let i = 0; i < 8; i++) {
+            setTimeout(createYTParticle, i * 300);
+        }
+    </script>
+</body>
+</html>
