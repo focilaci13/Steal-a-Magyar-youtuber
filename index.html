@@ -715,6 +715,7 @@
 
         // Felhasználói állapot figyelése
         auth.onAuthStateChanged((user) => {
+            console.log('Auth state changed:', user);
             updateUserUI(user);
         });
 
