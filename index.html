@@ -331,29 +331,12 @@
                 <p>Bejelentkezés vagy regisztráció</p>
             </div>
             <div class="modal-tabs">
-                <button class="tab-btn active" onclick="switchTab('login')">Bejelentkezés</button>
-                <button class="tab-btn" onclick="switchTab('register')">Regisztráció</button>
+                <button class="tab-btn active" onclick="switchTab('register')">Regisztráció</button>
+                <button class="tab-btn" onclick="switchTab('login')">Bejelentkezés</button>
             </div>
 
-            <!-- Bejelentkezés form -->
-            <form id="loginForm" class="auth-form active">
-                <div class="error-message" id="loginError"></div>
-                <div class="form-group">
-                    <label for="loginEmail">Email</label>
-                    <input type="email" id="loginEmail" placeholder="email@cimed.hu" required>
-                </div>
-                <div class="form-group">
-                    <label for="loginPassword">Jelszó</label>
-                    <input type="password" id="loginPassword" placeholder="Jelszó" required>
-                </div>
-                <button type="submit" class="auth-btn">Bejelentkezés</button>
-                <button type="button" class="auth-btn google-btn" onclick="signInWithGoogle()">
-                    <span>🔵</span> Bejelentkezés Google-lel
-                </button>
-            </form>
-
             <!-- Regisztráció form -->
-            <form id="registerForm" class="auth-form">
+            <form id="registerForm" class="auth-form active">
                 <div class="error-message" id="registerError"></div>
                 <div class="success-message" id="registerSuccess"></div>
                 <div class="form-group">
@@ -371,6 +354,23 @@
                 <button type="submit" class="auth-btn">Regisztráció</button>
                 <button type="button" class="auth-btn google-btn" onclick="signInWithGoogle()">
                     <span>🔵</span> Regisztráció Google-lel
+                </button>
+            </form>
+
+            <!-- Bejelentkezés form -->
+            <form id="loginForm" class="auth-form">
+                <div class="error-message" id="loginError"></div>
+                <div class="form-group">
+                    <label for="loginEmail">Email</label>
+                    <input type="email" id="loginEmail" placeholder="email@cimed.hu" required>
+                </div>
+                <div class="form-group">
+                    <label for="loginPassword">Jelszó</label>
+                    <input type="password" id="loginPassword" placeholder="Jelszó" required>
+                </div>
+                <button type="submit" class="auth-btn">Bejelentkezés</button>
+                <button type="button" class="auth-btn google-btn" onclick="signInWithGoogle()">
+                    <span>🔵</span> Bejelentkezés Google-lel
                 </button>
             </form>
         </div>
@@ -425,13 +425,13 @@
 
             tabs.forEach(t => t.classList.remove('active'));
 
-            if (tab === 'login') {
-                loginForm.classList.add('active');
-                registerForm.classList.remove('active');
+            if (tab === 'register') {
+                registerForm.classList.add('active');
+                loginForm.classList.remove('active');
                 tabs[0].classList.add('active');
             } else {
-                loginForm.classList.remove('active');
-                registerForm.classList.add('active');
+                registerForm.classList.remove('active');
+                loginForm.classList.add('active');
                 tabs[1].classList.add('active');
             }
         }
