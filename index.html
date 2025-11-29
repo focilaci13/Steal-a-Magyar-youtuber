@@ -489,14 +489,25 @@
                 return;
             }
 
+            // Gomb letiltása, hogy ne lehessen többször kattintani
+            const submitBtn = e.target.querySelector('button[type="submit"]');
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Regisztráció...';
+
             try {
                 const userCredential = await auth.createUserWithEmailAndPassword(email, password);
                 showSuccess('registerSuccess', 'Sikeres regisztráció! Be vagy jelentkezve.');
                 setTimeout(() => {
                     closeAuthModal();
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = 'Regisztráció';
+                    // Form ürítése
+                    document.getElementById('registerForm').reset();
                 }, 2000);
             } catch (error) {
                 showError('registerError', getErrorMessage(error.code));
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Regisztráció';
             }
         });
 
@@ -517,6 +528,13 @@
 
         // Google bejelentkezés
         async function signInWithGoogle() {
+            // Gomb letiltása
+            const googleBtns = document.querySelectorAll('.google-btn');
+            googleBtns.forEach(btn => {
+                btn.disabled = true;
+                btn.textContent = 'Google bejelentkezés...';
+            });
+
             const provider = new firebase.auth.GoogleAuthProvider();
             try {
                 await auth.signInWithPopup(provider);
@@ -524,6 +542,16 @@
             } catch (error) {
                 const errorElement = document.querySelector('.auth-form.active .error-message');
                 showError(errorElement.id, getErrorMessage(error.code));
+            } finally {
+                // Gombok visszaállítása
+                googleBtns.forEach(btn => {
+                    btn.disabled = false;
+                    if (btn.textContent.includes('Bejelentkezés')) {
+                        btn.innerHTML = '<span>🔵</span> Bejelentkezés Google-lel';
+                    } else {
+                        btn.innerHTML = '<span>🔵</span> Regisztráció Google-lel';
+                    }
+                });
             }
         }
 
