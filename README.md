@@ -6,7 +6,7 @@
 - **Élő URL:** https://focilaci13.github.io/Steal-a-Magyar-youtuber/
 
 ## Telepítés helyi szerveren
-1. Klónozás: `git clone https://github.com/focilaci13/Steal-a-Magyar-youtuber.git`
+1. Klónozás: `git clone https://github.com//Steal-a-Magyar-youtuber.git`
 2. Megnyitás: `index.html` böngészőben
 
 ## Funkciók
