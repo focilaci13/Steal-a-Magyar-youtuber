@@ -3,7 +3,7 @@
 ## Hoszting információk
 - **Eredeti hoszting:** Netlify (eltávolítva)
 - **Új hoszting:** GitHub Pages
-- **Élő URL:** https://.github.io/Steal-a-Magyar-youtuber/
+- **Élő URL:** https://focilaci13.github.io/Steal-a-Magyar-youtuber/
 
 ## Telepítés helyi szerveren
 1. Klónozás: `git clone https://github.com//Steal-a-Magyar-youtuber.git`
