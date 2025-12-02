@@ -803,7 +803,27 @@
                         },
                         (error) => {
                             console.error('Hiba a feltöltés során:', error);
-                            alert('Hiba történt a kép feltöltése közben!');
+
+                            // Részletes hibaüzenet
+                            let errorMessage = 'Hiba történt a kép feltöltése közben!\n\n';
+                            switch(error.code) {
+                                case 'storage/unauthorized':
+                                    errorMessage += '🚫 Nincs jogosultságod a feltöltéshez!\n\n';
+                                    errorMessage += 'Megoldás: A Firebase Console-ban állítsd be a Storage Security Rules-t.\n';
+                                    errorMessage += 'Lásd: FIREBASE_SETUP.md';
+                                    break;
+                                case 'storage/canceled':
+                                    errorMessage += 'A feltöltés megszakítva.';
+                                    break;
+                                case 'storage/unknown':
+                                    errorMessage += 'Ismeretlen hiba történt.';
+                                    break;
+                                default:
+                                    errorMessage += `Hiba kód: ${error.code}\n`;
+                                    errorMessage += `Üzenet: ${error.message}`;
+                            }
+
+                            alert(errorMessage);
                             document.body.removeChild(progressDiv);
                         },
                         () => {
