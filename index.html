@@ -216,6 +216,100 @@
         .profile-action-btn:hover { background: rgba(255,255,255,0.15); }
         .profile-action-btn.logout { background: #ff5555; }
         .profile-action-btn.logout:hover { background: #ff3333; }
+
+        /* STY BADGE animáció stílusok */
+        .sty-badge-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #FF0000;
+            z-index: 9999;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            animation: styPulse 0.5s ease-in-out infinite;
+        }
+
+        @keyframes styPulse {
+            0%, 100% { background: #FF0000; }
+            50% { background: #CC0000; }
+        }
+
+        .sty-badge-container {
+            text-align: center;
+            animation: spin 2s linear infinite;
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .sty-badge {
+            width: 200px;
+            height: 200px;
+            background: linear-gradient(45deg, #FFD700, #FFA500, #FF6347);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: bold;
+            color: #FFFFFF;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            box-shadow: 0 0 50px rgba(255, 215, 0, 0.8), 0 0 100px rgba(255, 165, 0, 0.5);
+            border: 5px solid #FFFFFF;
+            position: relative;
+        }
+
+        .sty-badge::before {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: -10px;
+            right: -10px;
+            bottom: -10px;
+            background: linear-gradient(45deg, #FFD700, #FFA500, #FF6347, #FFD700);
+            border-radius: 50%;
+            z-index: -1;
+            animation: shimmer 1s linear infinite;
+        }
+
+        @keyframes shimmer {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+
+        /* Profilkép feltöltés stílusok */
+        .avatar-upload-preview {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .avatar-preview-img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #e94560;
+            margin-bottom: 10px;
+        }
+
+        /* Jelszó változtatás form stílusok */
+        .change-password-form {
+            display: none;
+            margin-top: 20px;
+            padding: 20px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 15px;
+        }
+
+        .change-password-form.active {
+            display: block;
+        }
     </style>
 </head>
 <body>
@@ -438,7 +532,6 @@
             </div>
             <div class="profile-info">
                 <div class="profile-name" id="profileName">Felhasználó</div>
-                <div class="profile-email" id="profileEmail">email@example.com</div>
             </div>
             <div class="profile-stats">
                 <div class="profile-stat">
@@ -455,9 +548,46 @@
                 </div>
             </div>
             <div class="profile-actions">
-                <button class="profile-action-btn" onclick="showChangePassword()">🔐 Jelszó megváltoztatása</button>
                 <button class="profile-action-btn" onclick="showAccountSettings()">👤 Fiók beállításai</button>
                 <button class="profile-action-btn logout" onclick="logout()">🚪 Kijelentkezés</button>
+            </div>
+
+            <!-- Fiók beállításai (rejtett) -->
+            <div id="accountSettings" class="change-password-form">
+                <h3 style="color: #e94560; margin-bottom: 15px;">🔐 Fiók beállításai</h3>
+                <div style="margin-bottom: 15px;">
+                    <label style="color: #ccc; font-size: 14px;">Email cím:</label>
+                    <div id="profileEmail" style="color: #fff; padding: 8px; background: rgba(255,255,255,0.1); border-radius: 5px;">email@example.com</div>
+                </div>
+                <button class="profile-action-btn" onclick="showChangePassword()" style="margin-top: 10px;">🔑 Jelszó megváltoztatása</button>
+
+                <!-- Jelszó változtatás form -->
+                <div id="changePasswordForm" class="change-password-form" style="margin-top: 15px;">
+                    <h4 style="color: #e94560; margin-bottom: 15px;">Jelszó megváltoztatása</h4>
+                    <div class="form-group">
+                        <label for="currentPassword">Jelenlegi jelszó</label>
+                        <input type="password" id="currentPassword" placeholder="Jelenlegi jelszó">
+                    </div>
+                    <div class="form-group">
+                        <label for="newPassword">Új jelszó (min. 6 karakter)</label>
+                        <input type="password" id="newPassword" placeholder="Új jelszó">
+                    </div>
+                    <div class="form-group">
+                        <label for="confirmNewPassword">Új jelszó megerősítése</label>
+                        <input type="password" id="confirmNewPassword" placeholder="Új jelszó mégegyszer">
+                    </div>
+                    <div class="error-message" id="passwordError"></div>
+                    <button class="auth-btn" onclick="changePassword()">Jelszó megváltoztatása</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- STY BADGE Animáció -->
+    <div id="styBadgeOverlay" class="sty-badge-overlay">
+        <div class="sty-badge-container">
+            <div class="sty-badge">
+                STY BADGE
             </div>
         </div>
     </div>
@@ -465,6 +595,7 @@
     <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-storage-compat.js"></script>
     <script>
         // Firebase konfiguráció
         const firebaseConfig = {
@@ -480,6 +611,7 @@
         // Firebase inicializálás
         firebase.initializeApp(firebaseConfig);
         const auth = firebase.auth();
+        const storage = firebase.storage();
     </script>
 
     <script>
@@ -567,6 +699,76 @@
             document.getElementById('profileAvatarLarge').src = user.photoURL || 'https://via.placeholder.com/120';
         }
 
+        // Jelszó változtatás funkció
+        async function changePassword() {
+            const user = auth.currentUser;
+            if (!user) {
+                showError('passwordError', 'Nincs bejelentkezve felhasználó!');
+                return;
+            }
+
+            const currentPassword = document.getElementById('currentPassword').value;
+            const newPassword = document.getElementById('newPassword').value;
+            const confirmNewPassword = document.getElementById('confirmNewPassword').value;
+
+            // Validáció
+            if (!currentPassword || !newPassword || !confirmNewPassword) {
+                showError('passwordError', 'Minden mezőt tölts ki!');
+                return;
+            }
+
+            if (newPassword !== confirmNewPassword) {
+                showError('passwordError', 'Az új jelszavak nem egyeznek!');
+                return;
+            }
+
+            if (newPassword.length < 6) {
+                showError('passwordError', 'Az új jelszónak legalább 6 karakternek kell lennie!');
+                return;
+            }
+
+            try {
+                // Jelenlegi jelszó ellenőrzése és új jelszó beállítása
+                const credential = firebase.auth.EmailAuthProvider.credential(user.email, currentPassword);
+                await user.reauthenticateWithCredential(credential);
+                await user.updatePassword(newPassword);
+
+                // Form ürítése és siker üzenet
+                document.getElementById('currentPassword').value = '';
+                document.getElementById('newPassword').value = '';
+                document.getElementById('confirmNewPassword').value = '';
+                document.getElementById('changePasswordForm').classList.remove('active');
+
+                alert('Jelszó sikeresen megváltoztatva!');
+            } catch (error) {
+                if (error.code === 'auth/wrong-password') {
+                    showError('passwordError', 'A jelenlegi jelszó helytelen!');
+                } else {
+                    showError('passwordError', 'Hiba történt: ' + getErrorMessage(error.code));
+                }
+            }
+        }
+
+        // STY BADGE animáció
+        function showSTYBadgeAnimation() {
+            const overlay = document.getElementById('styBadgeOverlay');
+            overlay.style.display = 'flex';
+
+            // Hang effektus (opcionális)
+            try {
+                const audio = new Audio('data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2/LDciUFLIHO8tiJNwgZaLvt559NEAxQp+PwtmMcBjiR1/LMeSwFJHfH8N2QQAoUXrTp66hVFApGn+DyvmwhBTGH0fPTgjMGHm7A7+OZURE');
+                audio.volume = 0.3;
+                audio.play().catch(e => console.log('Hang lejátszása sikertelen:', e));
+            } catch (e) {
+                console.log('Hang hiba:', e);
+            }
+
+            // 5 másodperc után eltűnik
+            setTimeout(() => {
+                overlay.style.display = 'none';
+            }, 5000);
+        }
+
         function openProfileModal() {
             document.getElementById('profileModal').classList.add('active');
             const user = auth.currentUser;
@@ -582,18 +784,74 @@
         function uploadAvatar(event) {
             const file = event.target.files[0];
             if (file) {
-                // TODO: Firebase Storage integráció
-                alert('Profilkép feltöltés funkció hamarosan elérhető!');
-                // ide jön a Firebase Storage kód
+                // File méret ellenőrzés (max 5MB)
+                if (file.size > 5 * 1024 * 1024) {
+                    alert('A fájl mérete maximum 5MB lehet!');
+                    return;
+                }
+
+                // File típus ellenőrzés
+                if (!file.type.match('image.*')) {
+                    alert('Csak képfájlt tölthetsz fel!');
+                    return;
+                }
+
+                const user = auth.currentUser;
+                if (user) {
+                    // Feltöltés a Firebase Storage-ba
+                    const storageRef = storage.ref();
+                    const avatarRef = storageRef.child(`avatars/${user.uid}`);
+
+                    const uploadTask = avatarRef.put(file);
+
+                    // Progress bar létrehozása
+                    const progressDiv = document.createElement('div');
+                    progressDiv.style.cssText = 'position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(0,0,0,0.8); color: white; padding: 20px; border-radius: 10px; z-index: 10000;';
+                    progressDiv.textContent = 'Feltöltés: 0%';
+                    document.body.appendChild(progressDiv);
+
+                    uploadTask.on('state_changed',
+                        (snapshot) => {
+                            const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                            progressDiv.textContent = `Feltöltés: ${Math.round(progress)}%`;
+                        },
+                        (error) => {
+                            console.error('Hiba a feltöltés során:', error);
+                            alert('Hiba történt a kép feltöltése közben!');
+                            document.body.removeChild(progressDiv);
+                        },
+                        () => {
+                            // Sikeres feltöltés
+                            uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
+                                // Profil frissítése az új képpel
+                                user.updateProfile({
+                                    photoURL: downloadURL
+                                }).then(() => {
+                                    // UI frissítése
+                                    updateUserUI(user);
+                                    document.getElementById('profileAvatarLarge').src = downloadURL;
+                                    document.body.removeChild(progressDiv);
+                                    alert('Profilkép sikeresen feltöltve!');
+                                }).catch((error) => {
+                                    console.error('Hiba a profil frissítésekor:', error);
+                                    alert('Hiba történt a profil frissítésekor!');
+                                    document.body.removeChild(progressDiv);
+                                });
+                            });
+                        }
+                    );
+                }
             }
         }
 
         function showChangePassword() {
-            alert('Jelszó változtatás funkció hamarosan elérhető!');
+            const form = document.getElementById('changePasswordForm');
+            form.classList.toggle('active');
         }
 
         function showAccountSettings() {
-            alert('Fiók beállítások funkció hamarosan elérhető!');
+            const settings = document.getElementById('accountSettings');
+            settings.classList.toggle('active');
         }
 
         // Email/Password regisztráció
@@ -620,7 +878,20 @@
             submitBtn.textContent = 'Regisztráció...';
 
             try {
+                // Először ellenőrizzük, létezik-e már az email
+                const signInMethods = await auth.fetchSignInMethodsForEmail(email);
+                if (signInMethods.length > 0) {
+                    showError('registerError', 'Ez az email cím már regisztrálva van! Használja a bejelentkezést vagy más emailt.');
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = 'Regisztráció';
+                    return;
+                }
+
                 const userCredential = await auth.createUserWithEmailAndPassword(email, password);
+
+                // Sikeres regisztráció - STY BADGE animáció
+                showSTYBadgeAnimation();
+
                 showSuccess('registerSuccess', 'Sikeres regisztráció! Be vagy jelentkezve.');
                 setTimeout(() => {
                     closeAuthModal();
@@ -628,7 +899,7 @@
                     submitBtn.textContent = 'Regisztráció';
                     // Form ürítése
                     document.getElementById('registerForm').reset();
-                }, 2000);
+                }, 6000); // Várunk az animáció idejére
             } catch (error) {
                 showError('registerError', getErrorMessage(error.code));
                 submitBtn.disabled = false;

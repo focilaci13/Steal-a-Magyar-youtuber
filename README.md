@@ -10,6 +10,15 @@
 2. Megnyitás: `index.html` böngészőben
 
 ## Funkciók
-- Google regisztráció/bejelentkezés (Firebase)
+- Google és email regisztráció/bejelentkezés (Firebase)
+- Profilkép feltöltés (Firebase Storage)
+- Jelszóváltoztatás
+- STY Badge animáció regisztrációkor
 - Responsive design
 - Magyar YouTuber játék bemutatása
+
+## Firebase Beállítások
+A teljes funkcionalitáshoz a Firebase Console-ban be kell állítani:
+1. Authentication (Email/Password és Google Provider)
+2. Storage (kép feltöltéshez)
+   - Security rules: `allow read, write: if request.auth != null;`
