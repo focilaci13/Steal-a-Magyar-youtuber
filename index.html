@@ -515,7 +515,18 @@
             </div>
             <div class="profile-info">
                 <div class="profile-name" id="profileName">Felhasználó</div>
+                <div id="profileEmail" style="color: #888; font-size: 14px; margin-top: 5px;">email@example.com</div>
             </div>
+
+            <!-- SAMY BADGE -->
+            <div style="text-align: center; margin: 20px 0;">
+                <div class="sty-badge-container" style="animation: spin 2s linear infinite; display: inline-block;">
+                    <div class="sty-badge" style="width: 150px; height: 150px; font-size: 18px; box-shadow: 0 0 30px rgba(255, 215, 0, 0.8), 0 0 60px rgba(255, 165, 0, 0.5); border: 4px solid #FFFFFF;">
+                        SAMY BADGE
+                    </div>
+                </div>
+            </div>
+
             <div class="profile-actions">
                 <button class="profile-action-btn" onclick="showAccountSettings()">👤 Fiók</button>
                 <button class="profile-action-btn logout" onclick="logout()">🚪 Kijelentkezés</button>
@@ -524,16 +535,6 @@
             <!-- Fiók beállításai (rejtett) -->
             <div id="accountSettings" class="change-password-form">
                 <h3 style="color: #e94560; margin-bottom: 15px;">🔐 Fiók</h3>
-
-                <!-- SAMY BADGE -->
-                <div style="text-align: center; margin-bottom: 20px;">
-                    <div class="sty-badge-container" style="animation: spin 2s linear infinite; display: inline-block;">
-                        <div class="sty-badge" style="width: 150px; height: 150px; font-size: 18px; box-shadow: 0 0 30px rgba(255, 215, 0, 0.8), 0 0 60px rgba(255, 165, 0, 0.5); border: 4px solid #FFFFFF;">
-                            SAMY BADGE
-                        </div>
-                    </div>
-                </div>
-
                 <button class="profile-action-btn" onclick="showChangePassword()" style="margin-top: 10px;">🔑 Jelszó megváltoztatása</button>
                 <button class="profile-action-btn" onclick="showEmailChange()" style="margin-top: 10px;">✉️ Email megváltoztatása</button>
 
@@ -693,6 +694,7 @@
 
         function updateProfileModal(user) {
             document.getElementById('profileName').textContent = user.displayName || 'Felhasználó';
+            document.getElementById('profileEmail').textContent = user.email;
             document.getElementById('currentEmail').textContent = user.email;
 
             // Alapértelmezett avatar beállítása
