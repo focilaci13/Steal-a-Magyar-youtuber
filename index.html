@@ -517,13 +517,13 @@
                 <div class="profile-name" id="profileName">Felhasználó</div>
             </div>
             <div class="profile-actions">
-                <button class="profile-action-btn" onclick="showAccountSettings()">👤 Fiók beállításai</button>
+                <button class="profile-action-btn" onclick="showAccountSettings()">👤 Fiók</button>
                 <button class="profile-action-btn logout" onclick="logout()">🚪 Kijelentkezés</button>
             </div>
 
             <!-- Fiók beállításai (rejtett) -->
             <div id="accountSettings" class="change-password-form">
-                <h3 style="color: #e94560; margin-bottom: 15px;">🔐 Fiók beállításai</h3>
+                <h3 style="color: #e94560; margin-bottom: 15px;">🔐 Fiók</h3>
 
                 <!-- SAMY BADGE -->
                 <div style="text-align: center; margin-bottom: 20px;">
@@ -534,11 +534,8 @@
                     </div>
                 </div>
 
-                <div style="margin-bottom: 15px;">
-                    <label style="color: #ccc; font-size: 14px;">Email cím:</label>
-                    <div id="profileEmail" style="color: #fff; padding: 8px; background: rgba(255,255,255,0.1); border-radius: 5px;">email@example.com</div>
-                </div>
                 <button class="profile-action-btn" onclick="showChangePassword()" style="margin-top: 10px;">🔑 Jelszó megváltoztatása</button>
+                <button class="profile-action-btn" onclick="showEmailChange()" style="margin-top: 10px;">✉️ Email megváltoztatása</button>
 
                 <!-- Jelszó változtatás form -->
                 <div id="changePasswordForm" class="change-password-form" style="margin-top: 15px;">
@@ -557,6 +554,25 @@
                     </div>
                     <div class="error-message" id="passwordError"></div>
                     <button class="auth-btn" onclick="changePassword()">Jelszó megváltoztatása</button>
+                </div>
+
+                <!-- Email változtatás form -->
+                <div id="changeEmailForm" class="change-password-form" style="margin-top: 15px;">
+                    <h4 style="color: #e94560; margin-bottom: 15px;">Email megváltoztatása</h4>
+                    <div class="form-group">
+                        <label for="currentEmail">Jelenlegi email</label>
+                        <div id="currentEmail" style="color: #fff; padding: 8px; background: rgba(255,255,255,0.1); border-radius: 5px; margin-bottom: 10px;">email@example.com</div>
+                    </div>
+                    <div class="form-group">
+                        <label for="newEmail">Új email cím</label>
+                        <input type="email" id="newEmail" placeholder="új@email.hu">
+                    </div>
+                    <div class="form-group">
+                        <label for="emailPassword">Jelszó megerősítése</label>
+                        <input type="password" id="emailPassword" placeholder="Add meg a jelszavad">
+                    </div>
+                    <div class="error-message" id="emailError"></div>
+                    <button class="auth-btn" onclick="changeEmail()">Email megváltoztatása</button>
                 </div>
             </div>
         </div>
@@ -677,7 +693,7 @@
 
         function updateProfileModal(user) {
             document.getElementById('profileName').textContent = user.displayName || 'Felhasználó';
-            document.getElementById('profileEmail').textContent = user.email;
+            document.getElementById('currentEmail').textContent = user.email;
 
             // Alapértelmezett avatar beállítása
             const defaultAvatar = 'https://ui-avatars.com/api/?name=' + encodeURIComponent(user.displayName || 'Felhasználó') + '&background=e94560&color=fff&size=120';
@@ -872,9 +888,68 @@
             }
         }
 
+        // Email változtatás funkció
+        async function changeEmail() {
+            const user = auth.currentUser;
+            if (!user) {
+                showError('emailError', 'Nincs bejelentkezve felhasználó!');
+                return;
+            }
+
+            const newEmail = document.getElementById('newEmail').value;
+            const password = document.getElementById('emailPassword').value;
+
+            // Validáció
+            if (!newEmail || !password) {
+                showError('emailError', 'Minden mezőt tölts ki!');
+                return;
+            }
+
+            if (!newEmail.includes('@') || !newEmail.includes('.')) {
+                showError('emailError', 'Érvénytelen email cím!');
+                return;
+            }
+
+            if (newEmail === user.email) {
+                showError('emailError', 'Az új email nem lehet ugyanaz, mint a régi!');
+                return;
+            }
+
+            try {
+                // Jelszó ellenőrzése és új email beállítása
+                const credential = firebase.auth.EmailAuthProvider.credential(user.email, password);
+                await user.reauthenticateWithCredential(credential);
+                await user.updateEmail(newEmail);
+
+                // Form ürítése és siker üzenet
+                document.getElementById('newEmail').value = '';
+                document.getElementById('emailPassword').value = '';
+                document.getElementById('changeEmailForm').classList.remove('active');
+
+                alert('Email sikeresen megváltoztatva! Kérlek, ellenőrizd az új email címedet.');
+            } catch (error) {
+                if (error.code === 'auth/wrong-password') {
+                    showError('emailError', 'A jelszó helytelen!');
+                } else if (error.code === 'auth/email-already-in-use') {
+                    showError('emailError', 'Ez az email cím már használatban van!');
+                } else {
+                    showError('emailError', 'Hiba történt: ' + getErrorMessage(error.code));
+                }
+            }
+        }
+
         function showChangePassword() {
             const form = document.getElementById('changePasswordForm');
             form.classList.toggle('active');
+            // Bezárjuk az email formot, ha nyitva van
+            document.getElementById('changeEmailForm').classList.remove('active');
+        }
+
+        function showEmailChange() {
+            const form = document.getElementById('changeEmailForm');
+            form.classList.toggle('active');
+            // Bezárjuk a jelszó formot, ha nyitva van
+            document.getElementById('changePasswordForm').classList.remove('active');
         }
 
         function showAccountSettings() {
