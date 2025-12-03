@@ -689,6 +689,11 @@
             } else {
                 authBtn.style.display = 'block';
                 userInfo.classList.remove('active');
+                // Profil gombra kattintva is bejelentkezéshez vezessen
+                const profileBtn = document.querySelector('.profile-btn');
+                if (profileBtn) {
+                    profileBtn.onclick = openAuthModal;
+                }
             }
         }
 
@@ -773,10 +778,13 @@
         }
 
         function openProfileModal() {
-            document.getElementById('profileModal').classList.add('active');
             const user = auth.currentUser;
             if (user) {
+                document.getElementById('profileModal').classList.add('active');
                 updateProfileModal(user);
+            } else {
+                // Ha nincs bejelentkezve, nyissa meg a regisztrációs/bejelentkezési modalt
+                openAuthModal();
             }
         }
 
