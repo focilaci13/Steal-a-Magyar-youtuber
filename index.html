@@ -515,7 +515,6 @@
             </div>
             <div class="profile-info">
                 <div class="profile-name" id="profileName">Felhasználó</div>
-                <div id="profileEmail" style="color: #888; font-size: 14px; margin-top: 5px;">email@example.com</div>
             </div>
 
             <!-- SAMY BADGE -->
@@ -699,7 +698,6 @@
 
         function updateProfileModal(user) {
             document.getElementById('profileName').textContent = user.displayName || 'Felhasználó';
-            document.getElementById('profileEmail').textContent = user.email;
             document.getElementById('currentEmail').textContent = user.email;
 
             // Alapértelmezett avatar beállítása
