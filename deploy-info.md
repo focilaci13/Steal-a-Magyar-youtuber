@@ -1,7 +1,7 @@
 # GitHub Pages Deployment
 
 ## Aktuális URL:
-https://focilaci13.github.io/Steal-a-Magyar-youtuber/
+https://focilaci13.github.io/Magyar-Steal-a-Brainrot/
 
 ## Frissítés módja:
 1. Változtatás a kódban
@@ -11,5 +11,5 @@ https://focilaci13.github.io/Steal-a-Magyar-youtuber/
 5. Várj 2 percet
 
 ## Státusz ellenőrzése:
-- GitHub: https://github.com/focilaci13/Steal-a-Magyar-youtuber/actions
-- Élő oldal: https://focilaci13.github.io/Steal-a-Magyar-youtuber/
+- GitHub: https://github.com/focilaci13/Magyar-Steal-a-Brainrot/actions
+- Élő oldal: https://focilaci13.github.io/Magyar-Steal-a-Brainrot/
