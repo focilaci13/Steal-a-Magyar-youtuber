@@ -41,7 +41,7 @@
         .page { display: none; }
         .page.active { display: block; }
         .hero { text-align: center; padding: 100px 20px; position: relative; }
-        .hero h1 { font-size: 52px; margin-bottom: 20px; animation: glow 3s infinite, float 4s ease-in-out infinite; background: linear-gradient(45deg, #B794F4, #9F7AEA, #805AD5, #6B46C1); background-size: 300% 300%; -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; display: inline-flex; align-items: center; justify-content: center; font-weight: 700; }
+        .hero h1 { font-size: 52px; margin-bottom: 20px; animation: glow 3s infinite, float 4s ease-in-out infinite; background: linear-gradient(45deg, #FF6B6B, #4ECDC4, #FF6B6B, #FF8E53); background-size: 300% 300%; -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; display: inline-flex; align-items: center; justify-content: center; font-weight: 700; }
         .hero > p { font-size: 20px; color: #ccc; margin-bottom: 40px; animation: slideIn 1s ease-out; }
         .game-description { background: linear-gradient(135deg, rgba(183, 148, 244, 0.08) 0%, rgba(159, 122, 234, 0.03) 100%); border: 1px solid rgba(183, 148, 244, 0.2); border-radius: 20px; padding: 35px; margin: 40px auto; max-width: 800px; animation: slideIn 1.2s ease-out; backdrop-filter: blur(10px); }
         .game-description h2 { color: #B794F4; margin-bottom: 20px; text-align: center; font-size: 28px; font-weight: 600; text-shadow: 0 2px 4px rgba(0,0,0,0.3); }
@@ -327,7 +327,7 @@
                 </div>
                 <div class="buttons">
                     <a href="https://www.roblox.com/games/140082406464674/Steal-a-Magyar-Youtuber" target="_blank" class="btn btn-roblox">&#127918; Játék Indítása</a>
-                    <a href="https://discord.gg/eX6JdCeUuH" target="_blank" class="btn btn-discord">&#128172; Discord Szerver</a>
+                    <a href="https://discord.gg/UFUCd6bP" target="_blank" class="btn btn-discord">&#128172; Discord Szerver</a>
                 </div>
             </section>
             <section class="features">
@@ -411,14 +411,14 @@
                 </ul>
             </div>
             <div class="buttons" style="padding: 40px 0;">
-                <a href="https://discord.gg/eX6JdCeUuH" target="_blank" class="btn btn-discord" style="font-size: 20px; padding: 20px 50px;">&#128172; Csatlakozás a Discord Szerverhez</a>
+                <a href="https://discord.gg/UFUCd6bP" target="_blank" class="btn btn-discord" style="font-size: 20px; padding: 20px 50px;">&#128172; Csatlakozás a Discord Szerverhez</a>
             </div>
         </div>
 
         <footer>
             <div class="social-links">
                 <a href="https://www.roblox.com/games/140082406464674/Steal-a-Magyar-Youtuber" target="_blank" class="roblox-link">&#127918;</a>
-                <a href="https://discord.gg/eX6JdCeUuH" target="_blank" class="discord-link">&#128172;</a>
+                <a href="https://discord.gg/UFUCd6bP" target="_blank" class="discord-link">&#128172;</a>
             </div>
             <p>&#169; 2025 Magyar Steal a Brainrot - Minden jog fenntartva</p>
             <p>👍 Kedveld a játékot és csatlakozz a csoportunkhoz!</p>
@@ -1091,45 +1091,26 @@
         }
 
         // Discord statisztikák frissítése
-        async function updateDiscordStats() {
-            try {
-                // Ide add meg a valós Discord szerver ID-t
-                const DISCORD_SERVER_ID = "IDE_ADD_MEG_A_DISCORD_SERVER_ID"; // Helyettesítsd a valódi ID-vel
+        function updateDiscordStats() {
+            // Fix számok a Discord szerverhez
+            const totalMembers = 752;
+            const onlineUsers = 127;
 
-                // Discord API endpoint a szerver információkhoz
-                const response = await fetch(`https://discord.com/api/v9/invites/IDE_ADD_MEG_A_DISCORD_INVITE_KÓDOT`);
-                const data = await response.json();
+            // Főoldal statisztikák frissítése
+            document.getElementById('discordMembers').textContent = totalMembers.toLocaleString() + '+';
+            document.getElementById('discordMembers2').textContent = totalMembers.toLocaleString() + '+';
+            document.getElementById('discordOnline').textContent = onlineUsers.toLocaleString() + '+';
 
-                if (data.approximate_member_count && data.approximate_presence_count) {
-                    const members = data.approximate_member_count;
-                    const online = data.approximate_presence_count;
-
-                    // Főoldal statisztikák frissítése
-                    document.getElementById('discordMembers').textContent = members.toLocaleString() + '+';
-                    document.getElementById('discordMembers2').textContent = members.toLocaleString() + '+';
-                    document.getElementById('discordOnline').textContent = online.toLocaleString() + '+';
-
-                    // Online játékosok becslése (ha van Roblox API elérés)
-                    updateOnlinePlayers();
-                }
-            } catch (error) {
-                console.log('Discord statisztikák frissítése sikertelen, alapértelmezett értékek használata');
-                // Alapértelmezett értékek hiba esetén
-                document.getElementById('discordMembers').textContent = '500+';
-                document.getElementById('discordMembers2').textContent = '500+';
-                document.getElementById('discordOnline').textContent = '50+';
-                document.getElementById('onlinePlayers').textContent = '25+';
-            }
+            // Online játékosok frissítése
+            updateOnlinePlayers();
         }
 
-        // Online játékosok frissítése (placeholder - szükség lenne Roblox API-ra)
+        // Online játékosok frissítése
         function updateOnlinePlayers() {
-            // Simulált online játékos szám, amíg nincs valós API
-            const basePlayers = 25;
-            const variation = Math.floor(Math.random() * 15);
-            const onlineCount = basePlayers + variation;
+            // Fix online játékos szám
+            const onlinePlayers = 89;
 
-            document.getElementById('onlinePlayers').textContent = onlineCount + '+';
+            document.getElementById('onlinePlayers').textContent = onlinePlayers.toLocaleString() + '+';
         }
 
         // Automatikus frissítés indítása
