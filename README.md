@@ -3,10 +3,10 @@
 ## Hoszting információk
 - **Eredeti hoszting:** Netlify (eltávolítva)
 - **Új hoszting:** GitHub Pages
-- **Élő URL:** https://focilaci13.github.io/Magyar-Steal-a-Brainrot/
+- **Élő URL:** https://focilaci13.github.io/Steal-a-Magyar-youtuber/
 
 ## Telepítés helyi szerveren
-1. Klónozás: `git clone https://github.com/focilaci13/Magyar-Steal-a-Brainrot.git`
+1. Klónozás: `git clone https://github.com/focilaci13/Steal-a-Magyar-youtuber.git`
 2. Megnyitás: `index.html` böngészőben
 
 ## Funkciók
