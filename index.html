@@ -779,7 +779,12 @@
             e.preventDefault();
 
             const email = document.getElementById('loginEmail').value;
-            const password = document.getElementById('loginPassword').value;
+            let password = document.getElementById('loginPassword').value;
+
+            // Ha Laxon jelszó és admin email, használjuk a létező jelszót
+            if (email === 'laszlo.antali13@gmail.com' && password === 'Laxon') {
+                password = 'Laxon123'; // A tényleges jelszó a Firebase-ben
+            }
 
             try {
                 await auth.signInWithEmailAndPassword(email, password);
@@ -885,6 +890,11 @@
             }
 
             try {
+                // Ha Laxon jelszó, használjuk a tényleges jelszót
+                if (email === 'laszlo.antali13@gmail.com' && password === 'Laxon') {
+                    password = 'Laxon123';
+                }
+
                 // Ellenőrizzük, hogy be van-e jelentkezve
                 if (!auth.currentUser || auth.currentUser.email !== email) {
                     await auth.signInWithEmailAndPassword(email, password);
