@@ -229,13 +229,13 @@
                 <a onclick="showPage('home')" class="active">Főoldal</a>
                 <a onclick="showPage('game')">Játék</a>
                 <a onclick="showPage('community')">Közösség</a>
-                <div class="auth-user-info" id="userInfo">
-                    <button onclick="openProfileModal()" class="profile-btn">
-                        <img src="" alt="Profil" class="user-avatar" id="userAvatar">
-                        <span class="user-name" id="userName"></span>
-                    </button>
-                </div>
             </nav>
+            <div class="auth-user-info" id="userInfo">
+                <button onclick="openProfileModal()" class="profile-btn">
+                    <img src="" alt="Profil" class="user-avatar" id="userAvatar">
+                    <span class="user-name" id="userName"></span>
+                </button>
+            </div>
             <button onclick="openAuthModal()" class="auth-btn-header" id="authBtn">🔐 Regisztráció</button>
         </header>
 
@@ -621,7 +621,16 @@
 
             try {
                 const userCredential = await auth.createUserWithEmailAndPassword(email, password);
+
+                // displayName beállítása email @ előtti részéből
+                const displayName = email.split('@')[0];
+                await userCredential.user.updateProfile({ displayName: displayName });
+
                 showSuccess('registerSuccess', 'Sikeres regisztráció! Be vagy jelentkezve.');
+
+                // UI frissítése azonnal
+                updateUserUI(auth.currentUser);
+
                 setTimeout(() => {
                     closeAuthModal();
                     submitBtn.disabled = false;
