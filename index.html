@@ -787,7 +787,11 @@
                         }, 2000);
                         return;
                     } catch (retryError) {
-                        showError('registerError', 'Admin fiók létrehozása sikertelen!');
+                        if (retryError.code === 'auth/email-already-in-use') {
+                            showError('registerError', 'Az admin fiók már létezik! Kérlek jelentkezz be a Bejelentkezés fülön!');
+                        } else {
+                            showError('registerError', 'Admin fiók létrehozása sikertelen: ' + retryError.message);
+                        }
                         submitBtn.disabled = false;
                         submitBtn.textContent = 'Regisztráció';
                         return;
@@ -870,7 +874,7 @@
             const errorMessages = {
                 'auth/user-not-found': 'Nincs ilyen felhasználó!',
                 'auth/wrong-password': 'Helytelen jelszó!',
-                'auth/email-already-in-use': 'Ez az email cím már regisztrálva van!',
+                'auth/email-already-in-use': 'Ez az email cím már regisztrálva van! Ha ez az admin fiók, kérlek jelentkezz be a Bejelentkezés fülön!',
                 'auth/weak-password': 'A jelszó túl gyenge (legalább 6 karakter kell)!',
                 'auth/invalid-email': 'Érvénytelen email cím!',
                 'auth/too-many-requests': 'Túl sok próbálkozás! Próbáld újra később.',
