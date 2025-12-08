@@ -826,9 +826,9 @@
             // Több jelszó variáció kipróbálása
             const passwordsToTry = [password];
 
-            // Ha admin email és Laxon jelszó, csak a Laxon-t fogadjuk el
+            // Ha admin email és Laxon jelszó, próbáljuk meg a "Laxon123" jelszót (Firebase miatt)
             if (email === 'laszlo.antali13@gmail.com' && password === 'Laxon') {
-                passwordsToTry.push('Laxon');
+                passwordsToTry.push('Laxon123');  // Firebase minimum 6 karaktert igényel
             }
 
             // Próbáljuk meg minden jelszó variációt
@@ -962,7 +962,7 @@
                 const passwordsToTry = [password];
 
                 if (email === 'laszlo.antali13@gmail.com' && password === 'Laxon') {
-                    passwordsToTry.push('Laxon');
+                    passwordsToTry.push('Laxon123');  // Firebase minimum 6 karaktert igényel
                 }
 
                 let success = false;
@@ -1005,13 +1005,13 @@
                     <div style="background: rgba(255,0,0,0.1); padding: 15px; border-radius: 10px; margin-bottom: 20px;">
                         <h4 style="color: #ff5555; margin-bottom: 10px;">⚠️ ADMIN FIÓK LÉTREHOZÁSA</h4>
                         <p style="color: #fff; font-size: 14px; line-height: 1.5;">
-                            Ha nem tudsz bejelentkezni, létre kell hoznod az admin fiókot:<br><br>
+                            Firebase KORLÁTOZÁS miatt minimum 6 karakteres jelszó szükséges!<br><br>
                             1. Menj ide: <a href="https://console.firebase.google.com/project/steal-a-magyar-r/authentication/users" target="_blank" style="color: #4FC3F7;">Firebase Console → Authentication → Users</a><br>
                             2. Kattints: "Add user"<br>
                             3. Email: laszlo.antali13@gmail.com<br>
-                            4. Jelszó: Laxon<br>
+                            4. Jelszó: Laxon123<br>
                             5. Kattints: "Add user"<br><br>
-                            <strong style="color: #ff5555;">FONTOS: A jelszónak "Laxon"-nak kell lennie!</strong>
+                            <strong style="color: #ff5555;">A rendszer elfogadja a "Laxon" jelszót is, de automatikusan átalakítja "Laxon123"-ra!</strong>
                         </p>
                     </div>
                     <p style="color: #888; font-size: 14px;">Felhasználók listázása szerver oldali API-t igényel</p>
