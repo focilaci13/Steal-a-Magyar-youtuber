@@ -221,28 +221,65 @@
         /* SAMY BADGE stílusok */
         .samy-badge {
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
-            gap: 10px;
-            background: linear-gradient(135deg, #FFD700, #FFA500);
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, #FFD700, #FFA500, #FF8C00);
             color: #333;
-            padding: 15px 25px;
-            border-radius: 15px;
-            margin-top: 20px;
+            border-radius: 50%;
+            margin: 30px auto;
             font-weight: bold;
-            font-size: 20px;
-            text-shadow: 1px 1px 2px rgba(255,255,255,0.5);
-            box-shadow: 0 5px 20px rgba(255, 215, 0, 0.4), 0 0 30px rgba(255, 165, 0, 0.3);
-            animation: badgeGlow 2s ease-in-out infinite alternate;
-            border: 2px solid #FFD700;
+            font-size: 18px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.6), 0 0 60px rgba(255, 165, 0, 0.4), inset 0 0 20px rgba(255,255,255,0.3);
+            animation: badgeGlow 2s ease-in-out infinite alternate, badgePulse 3s ease-in-out infinite;
+            border: 3px solid #FFD700;
+            position: relative;
+            overflow: hidden;
         }
-        .badge-icon { font-size: 28px; animation: rotate 3s linear infinite; }
-        .badge-text { letter-spacing: 2px; }
+        .samy-badge::before {
+            content: '';
+            position: absolute;
+            top: -10%;
+            left: -10%;
+            width: 120%;
+            height: 120%;
+            background: radial-gradient(circle, rgba(255,255,255,0.3) 0%, transparent 70%);
+            animation: shimmer 4s linear infinite;
+        }
+        .badge-icon {
+            font-size: 50px;
+            margin-bottom: 5px;
+            animation: rotate 4s linear infinite, bounce 2s ease-in-out infinite;
+            z-index: 1;
+            position: relative;
+        }
+        .badge-text {
+            letter-spacing: 1px;
+            line-height: 1.2;
+            text-align: center;
+            z-index: 1;
+            position: relative;
+        }
         @keyframes badgeGlow {
-            from { box-shadow: 0 5px 20px rgba(255, 215, 0, 0.4), 0 0 30px rgba(255, 165, 0, 0.3); }
-            to { box-shadow: 0 8px 30px rgba(255, 215, 0, 0.6), 0 0 50px rgba(255, 165, 0, 0.5); }
+            from { box-shadow: 0 0 30px rgba(255, 215, 0, 0.6), 0 0 60px rgba(255, 165, 0, 0.4), inset 0 0 20px rgba(255,255,255,0.3); }
+            to { box-shadow: 0 0 50px rgba(255, 215, 0, 0.8), 0 0 80px rgba(255, 165, 0, 0.6), inset 0 0 30px rgba(255,255,255,0.5); }
+        }
+        @keyframes badgePulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
         }
         @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        @keyframes shimmer {
             from { transform: rotate(0deg); }
             to { transform: rotate(360deg); }
         }
@@ -474,28 +511,14 @@
                 <!-- SAMY BADGE -->
                 <div class="samy-badge" id="samyBadge" style="display: none;">
                     <div class="badge-icon">🏆</div>
-                    <div class="badge-text">SAMY BADGE</div>
+                    <div class="badge-text">SAMY<br>BADGE</div>
                 </div>
             </div>
             <div class="profile-info">
                 <div class="profile-name" id="profileName">Felhasználó</div>
                 <div class="profile-email" id="profileEmail">email@example.com</div>
             </div>
-            <div class="profile-stats">
-                <div class="profile-stat">
-                    <div class="number">0</div>
-                    <div class="label">YouTuber</div>
-                </div>
-                <div class="profile-stat">
-                    <div class="number">0</div>
-                    <div class="label">Lopás</div>
-                </div>
-                <div class="profile-stat">
-                    <div class="number">0</div>
-                    <div class="label">Rebirth</div>
-                </div>
-            </div>
-            <div class="profile-actions">
+                      <div class="profile-actions">
                 <button class="profile-action-btn" onclick="showChangePassword()">🔐 Jelszó megváltoztatása</button>
                 <button class="profile-action-btn" onclick="showAccountSettings()">👤 Fiók beállításai</button>
                 <button class="profile-action-btn logout" onclick="logout()">🚪 Kijelentkezés</button>
