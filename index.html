@@ -217,6 +217,35 @@
         .profile-action-btn:hover { background: rgba(255,255,255,0.15); }
         .profile-action-btn.logout { background: #ff5555; }
         .profile-action-btn.logout:hover { background: #ff3333; }
+
+        /* SAMY BADGE stílusok */
+        .samy-badge {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            background: linear-gradient(135deg, #FFD700, #FFA500);
+            color: #333;
+            padding: 15px 25px;
+            border-radius: 15px;
+            margin-top: 20px;
+            font-weight: bold;
+            font-size: 20px;
+            text-shadow: 1px 1px 2px rgba(255,255,255,0.5);
+            box-shadow: 0 5px 20px rgba(255, 215, 0, 0.4), 0 0 30px rgba(255, 165, 0, 0.3);
+            animation: badgeGlow 2s ease-in-out infinite alternate;
+            border: 2px solid #FFD700;
+        }
+        .badge-icon { font-size: 28px; animation: rotate 3s linear infinite; }
+        .badge-text { letter-spacing: 2px; }
+        @keyframes badgeGlow {
+            from { box-shadow: 0 5px 20px rgba(255, 215, 0, 0.4), 0 0 30px rgba(255, 165, 0, 0.3); }
+            to { box-shadow: 0 8px 30px rgba(255, 215, 0, 0.6), 0 0 50px rgba(255, 165, 0, 0.5); }
+        }
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
     </style>
 </head>
 <body>
@@ -375,6 +404,10 @@
                 <div class="error-message" id="registerError"></div>
                 <div class="success-message" id="registerSuccess"></div>
                 <div class="form-group">
+                    <label for="registerUsername">Felhasználónév</label>
+                    <input type="text" id="registerUsername" placeholder="Felhasználónév" required>
+                </div>
+                <div class="form-group">
                     <label for="registerEmail">Email</label>
                     <input type="email" id="registerEmail" placeholder="email@cimed.hu" required>
                 </div>
@@ -437,6 +470,11 @@
                         📷
                     </button>
                     <input type="file" id="avatarInput" accept="image/*" style="display: none;" onchange="uploadAvatar(event)">
+                </div>
+                <!-- SAMY BADGE -->
+                <div class="samy-badge" id="samyBadge" style="display: none;">
+                    <div class="badge-icon">🏆</div>
+                    <div class="badge-text">SAMY BADGE</div>
                 </div>
             </div>
             <div class="profile-info">
@@ -568,6 +606,12 @@
             document.getElementById('profileName').textContent = user.displayName || 'Felhasználó';
             document.getElementById('profileEmail').textContent = user.email;
             document.getElementById('profileAvatarLarge').src = user.photoURL || 'https://via.placeholder.com/120';
+
+            // SAMY BADGE ellenőrzése és megjelenítése
+            const samyBadge = localStorage.getItem('samyBadge');
+            if (samyBadge === 'true') {
+                document.getElementById('samyBadge').style.display = 'flex';
+            }
         }
 
         function openProfileModal() {
@@ -603,6 +647,7 @@
         document.getElementById('registerForm').addEventListener('submit', async (e) => {
             e.preventDefault();
 
+            const username = document.getElementById('registerUsername').value;
             const email = document.getElementById('registerEmail').value;
             const password = document.getElementById('registerPassword').value;
             const passwordConfirm = document.getElementById('registerPasswordConfirm').value;
@@ -625,14 +670,17 @@
             try {
                 const userCredential = await auth.createUserWithEmailAndPassword(email, password);
 
-                // displayName beállítása email @ előtti részéből
-                const displayName = email.split('@')[0];
-                await userCredential.user.updateProfile({ displayName: displayName });
+                // displayName beállítása a megadott felhasználónévre
+                await userCredential.user.updateProfile({ displayName: username });
 
-                showSuccess('registerSuccess', 'Sikeres regisztráció! Be vagy jelentkezve.');
+                showSuccess('registerSuccess', 'Sikeres regisztráció! SAMY BADGE aktiválva!');
+
+                // SAMY BADGE megjelenítése azonnal
+                localStorage.setItem('samyBadge', 'true');
 
                 // UI frissítése azonnal
                 updateUserUI(auth.currentUser);
+                updateProfileModal(auth.currentUser);
 
                 setTimeout(() => {
                     closeAuthModal();
