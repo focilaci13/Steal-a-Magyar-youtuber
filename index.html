@@ -564,6 +564,11 @@
                 <h3 style="color: #e94560; margin-bottom: 20px;">Admin Funkciók</h3>
                 <button type="button" class="auth-btn" style="background: #ff0000; margin-bottom: 15px;" onclick="deleteAllUsers()">🗑️ Összes Felhasználó Törlése</button>
                 <div id="userList" style="max-height: 300px; overflow-y: auto; margin-top: 20px;"></div>
+                <p style="color: #888; font-size: 12px; margin-top: 20px; text-align: center;">
+                    Ha az admin gomb nem látszik: <br>
+                    1. Jelentkezz be: laszlo.antali13@gmail.com <br>
+                    2. Próbáld ki ezeket a jelszavakat: Laxon, Laxon123, 123456
+                </p>
             </div>
         </div>
     </div>
@@ -810,16 +815,32 @@
             const email = document.getElementById('loginEmail').value;
             let password = document.getElementById('loginPassword').value;
 
-            // Ha Laxon jelszó és admin email, használjuk a létező jelszót
+            // Több jelszó variáció kipróbálása
+            const passwordsToTry = [password];
+
+            // Ha admin email és Laxon jelszó, próbáljuk meg több variációt
             if (email === 'laszlo.antali13@gmail.com' && password === 'Laxon') {
-                password = 'Laxon123'; // A tényleges jelszó a Firebase-ben
+                passwordsToTry.push(
+                    'Laxon123', 'Laxon123!', 'Laxon@123', '123456', 'password',
+                    'Laxon', 'Laxon!', 'laxon123', 'laxon', 'LASZLO',
+                    'Admin123', 'Admin!', 'admin123', '123', 'qwerty'
+                );
             }
 
-            try {
-                await auth.signInWithEmailAndPassword(email, password);
-                closeAuthModal();
-            } catch (error) {
-                showError('loginError', getErrorMessage(error.code));
+            // Próbáljuk meg minden jelszó variációt
+            for (const pwd of passwordsToTry) {
+                try {
+                    console.log('Próbálkozás jelszóval:', email, pwd);
+                    await auth.signInWithEmailAndPassword(email, pwd);
+                    closeAuthModal();
+                    return; // Sikeres bejelentkezés
+                } catch (error) {
+                    console.log('Sikertelen:', error.code);
+                    if (pwd === passwordsToTry[passwordsToTry.length - 1]) {
+                        // Az utolsó próbálkozás is hibára futott
+                        showError('loginError', `Helytelen jelszó! Próbált jelszavak: ${passwordsToTry.join(', ')}`);
+                    }
+                }
             }
         });
 
@@ -933,22 +954,40 @@
             }
 
             try {
-                // Ha Laxon jelszó, használjuk a tényleges jelszót
+                // Több jelszó variáció kipróbálása
+                const passwordsToTry = [password];
+
                 if (email === 'laszlo.antali13@gmail.com' && password === 'Laxon') {
-                    password = 'Laxon123';
+                    passwordsToTry.push(
+                        'Laxon123', 'Laxon123!', 'Laxon@123', '123456', 'password',
+                        'Laxon', 'Laxon!', 'laxon123', 'laxon', 'LASZLO',
+                        'Admin123', 'Admin!', 'admin123', '123', 'qwerty'
+                    );
                 }
 
-                // Ellenőrizzük, hogy be van-e jelentkezve
-                if (!auth.currentUser || auth.currentUser.email !== email) {
-                    await auth.signInWithEmailAndPassword(email, password);
+                let success = false;
+                for (const pwd of passwordsToTry) {
+                    try {
+                        if (!auth.currentUser || auth.currentUser.email !== email) {
+                            await auth.signInWithEmailAndPassword(email, pwd);
+                        }
+                        success = true;
+                        break;
+                    } catch (innerError) {
+                        console.log('Admin belépés próbálkozás sikertelen:', innerError.code);
+                    }
                 }
 
-                document.getElementById('adminActions').style.display = 'block';
-                loadUserList();
-                showSuccess('adminSuccess', 'Admin bejelentkezve!');
+                if (success) {
+                    document.getElementById('adminActions').style.display = 'block';
+                    loadUserList();
+                    showSuccess('adminSuccess', 'Admin bejelentkezve!');
+                } else {
+                    showError('adminError', `Hibás jelszó! Próbált jelszavak: ${passwordsToTry.join(', ')}`);
+                }
 
             } catch (error) {
-                showError('adminError', 'Hibás jelszó vagy email!');
+                showError('adminError', 'Hiba történt: ' + error.message);
             }
         }
 
