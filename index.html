@@ -51,8 +51,8 @@
         nav a:hover, nav a.active { color: #FF0000; text-shadow: 0 0 10px rgba(255, 0, 0, 0.5); }
         nav a::after { content: ""; position: absolute; bottom: -5px; left: 0; width: 0; height: 2px; background: #FF0000; transition: width 0.3s; }
         nav a:hover::after, nav a.active::after { width: 100%; }
-        .auth-btn-header { background: #e94560; color: white; border: none; padding: 12px 24px; border-radius: 25px; cursor: pointer; font-weight: bold; font-size: 16px; transition: all 0.3s; text-decoration: none; margin-left: 30px; }
-        .auth-user-info { display: none; align-items: center; gap: 15px; }
+        .auth-btn-header { position: absolute; top: 20px; right: 20px; background: #e94560; color: white; border: none; padding: 12px 24px; border-radius: 25px; cursor: pointer; font-weight: bold; font-size: 16px; transition: all 0.3s; z-index: 100; }
+        .auth-user-info { position: absolute; top: 20px; right: 20px; display: none; align-items: center; gap: 15px; z-index: 100; }
         .auth-user-info.active { display: flex; }
         .page { display: none; }
         .page.active { display: block; }
@@ -230,14 +230,14 @@
                 <a onclick="showPage('home')" class="active">Főoldal</a>
                 <a onclick="showPage('game')">Játék</a>
                 <a onclick="showPage('community')">Közösség</a>
-                <button onclick="openAuthModal()" class="auth-btn-header" id="authBtn">🔐 Regisztráció</button>
-                <div class="auth-user-info" id="userInfo">
-                    <button onclick="openProfileModal()" class="profile-btn">
-                        <img src="" alt="Profil" class="user-avatar" id="userAvatar">
-                        <span class="user-name" id="userName"></span>
-                    </button>
-                </div>
             </nav>
+            <button onclick="openAuthModal()" class="auth-btn-header" id="authBtn">🔐 Regisztráció</button>
+            <div class="auth-user-info" id="userInfo">
+                <button onclick="openProfileModal()" class="profile-btn">
+                    <img src="" alt="Profil" class="user-avatar" id="userAvatar">
+                    <span class="user-name" id="userName"></span>
+                </button>
+            </div>
         </header>
 
         <!-- FŐOLDAL -->
