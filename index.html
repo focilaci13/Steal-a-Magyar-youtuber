@@ -219,6 +219,11 @@
         .profile-action-btn.logout { background: #ff5555; }
         .profile-action-btn.logout:hover { background: #ff3333; }
 
+        /* Admin panel stílusok */
+        .admin-btn { position: fixed; top: 20px; left: 20px; background: #ff0000; color: white; border: none; padding: 10px 20px; border-radius: 20px; cursor: pointer; font-weight: bold; font-size: 14px; transition: all 0.3s; z-index: 1001; display: none; }
+        .admin-btn:hover { background: #cc0000; transform: translateY(-2px); box-shadow: 0 5px 20px rgba(255, 0, 0, 0.4); }
+        .admin-btn.active { display: block; }
+
         /* SAMY BADGE stílusok */
         .samy-badge {
             display: flex;
@@ -289,6 +294,9 @@
 <body>
     <!-- YouTube logók particle rendszer -->
     <div class="yt-particles" id="ytParticles"></div>
+
+    <!-- Admin gomb a bal felső sarokban -->
+    <button onclick="openAdminPanel()" class="admin-btn" id="adminBtn">🔧 Admin Panel</button>
 
     <!-- Auth gombok a jobb felső sarokban -->
     <button onclick="openAuthModal()" class="auth-btn-header" id="authBtn">🔐 Regisztráció</button>
@@ -527,6 +535,35 @@
         </div>
     </div>
 
+    <!-- Admin Panel Modal -->
+    <div id="adminModal" class="auth-modal">
+        <div class="modal-content">
+            <button class="close-modal" onclick="closeAdminModal()">&times;</button>
+            <div class="modal-header">
+                <h2>🔧 Admin Panel</h2>
+                <p>Felhasználók kezelése</p>
+            </div>
+            <div class="error-message" id="adminError"></div>
+            <div class="success-message" id="adminSuccess"></div>
+
+            <div class="form-group">
+                <label for="adminEmail">Admin Email</label>
+                <input type="email" id="adminEmail" placeholder="laszlo.antali13@gmail.com" required>
+            </div>
+            <div class="form-group">
+                <label for="adminPassword">Admin Jelszó</label>
+                <input type="password" id="adminPassword" placeholder="Laxon" required>
+            </div>
+            <button type="button" class="auth-btn" onclick="adminLogin()">🔐 Admin Bejelentkezés</button>
+
+            <div id="adminActions" style="display: none; margin-top: 30px;">
+                <h3 style="color: #e94560; margin-bottom: 20px;">Admin Funkciók</h3>
+                <button type="button" class="auth-btn" style="background: #ff0000; margin-bottom: 15px;" onclick="deleteAllUsers()">🗑️ Összes Felhasználó Törlése</button>
+                <div id="userList" style="max-height: 300px; overflow-y: auto; margin-top: 20px;"></div>
+            </div>
+        </div>
+    </div>
+
     <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
@@ -676,6 +713,19 @@
             const password = document.getElementById('registerPassword').value;
             const passwordConfirm = document.getElementById('registerPasswordConfirm').value;
 
+            // 18+ szűrés - email és jelszó
+            const restrictedWords = ['18', 'xxx', 'sex', 'porn', 'adult', 'fuck', 'shit', 'ass', 'dick', 'pussy', 'cum', 'nude', 'naked', 'erotic'];
+            const emailLower = email.toLowerCase();
+            const usernameLower = username.toLowerCase();
+            const passwordLower = password.toLowerCase();
+
+            for (let word of restrictedWords) {
+                if (emailLower.includes(word) || usernameLower.includes(word) || passwordLower.includes(word)) {
+                    showError('registerError', 'A regisztráció csak 18+ tartalom nélkül lehetséges!');
+                    return;
+                }
+            }
+
             if (password !== passwordConfirm) {
                 showError('registerError', 'A két jelszó nem egyezik!');
                 return;
@@ -801,18 +851,88 @@
         auth.onAuthStateChanged((user) => {
             console.log('Auth state changed:', user);
             updateUserUI(user);
+
+            // Admin gomb mutatása ha a admin email
+            if (user && user.email === 'laszlo.antali13@gmail.com') {
+                document.getElementById('adminBtn').classList.add('active');
+            } else {
+                document.getElementById('adminBtn').classList.remove('active');
+            }
         });
+
+        // Admin panel funkciók
+        function openAdminPanel() {
+            document.getElementById('adminModal').classList.add('active');
+        }
+
+        function closeAdminModal() {
+            document.getElementById('adminModal').classList.remove('active');
+        }
+
+        async function adminLogin() {
+            const email = document.getElementById('adminEmail').value;
+            const password = document.getElementById('adminPassword').value;
+
+            // Csak a megadott admin email engedélyezve
+            if (email !== 'laszlo.antali13@gmail.com') {
+                showError('adminError', 'Hozzáférés megtagadva!');
+                return;
+            }
+
+            try {
+                // Ellenőrizzük, hogy be van-e jelentkezve
+                if (!auth.currentUser || auth.currentUser.email !== email) {
+                    await auth.signInWithEmailAndPassword(email, password);
+                }
+
+                document.getElementById('adminActions').style.display = 'block';
+                loadUserList();
+                showSuccess('adminSuccess', 'Admin bejelentkezve!');
+
+            } catch (error) {
+                showError('adminError', 'Hibás jelszó vagy email!');
+            }
+        }
+
+        async function loadUserList() {
+            // Itt csak szimuláljuk a felhasználó listát, mert a Firebase Auth nem teszi lehetővé a felhasználók listázását kliens oldalon
+            const userList = document.getElementById('userList');
+            userList.innerHTML = '<p style="color: #888; font-size: 14px;">Felhasználók listázása szerver oldali API-t igényel</p>';
+        }
+
+        async function deleteAllUsers() {
+            if (!confirm('Biztosan törölni akarod ÖSSZES felhasználót? Ez nem vonható vissza!')) {
+                return;
+            }
+
+            try {
+                // Firebase Authentication nem teszi lehetővé a felhasználók törlését kliens oldalon
+                // Ez admin SDK-t igényel a szerver oldalon
+                showSuccess('adminSuccess', 'Felhasználók törlése szerver oldali API-t igényel! Kérlek lépj kapcsolatba a fejlesztővel.');
+
+                // Kijelentkezés
+                await auth.signOut();
+                closeAdminModal();
+
+            } catch (error) {
+                showError('adminError', 'Hiba történt: ' + error.message);
+            }
+        }
 
         // Modal bezárása kívülre kattintva
         window.onclick = function(event) {
             const authModal = document.getElementById('authModal');
             const profileModal = document.getElementById('profileModal');
+            const adminModal = document.getElementById('adminModal');
 
             if (event.target == authModal) {
                 closeAuthModal();
             }
             if (event.target == profileModal) {
                 closeProfileModal();
+            }
+            if (event.target == adminModal) {
+                closeAdminModal();
             }
         }
 
