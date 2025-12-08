@@ -52,7 +52,7 @@
         nav a::after { content: ""; position: absolute; bottom: -5px; left: 0; width: 0; height: 2px; background: #FF0000; transition: width 0.3s; }
         nav a:hover::after, nav a.active::after { width: 100%; }
         .auth-btn-header { background: #e94560; color: white; border: none; padding: 12px 24px; border-radius: 25px; cursor: pointer; font-weight: bold; font-size: 16px; transition: all 0.3s; text-decoration: none; }
-        .auth-user-info { display: none; align-items: center; gap: 15px; margin-left: 30px; }
+        .auth-user-info { display: none; align-items: center; gap: 15px; }
         .auth-user-info.active { display: flex; }
         .page { display: none; }
         .page.active { display: block; }
@@ -230,6 +230,8 @@
                 <a onclick="showPage('home')" class="active">Főoldal</a>
                 <a onclick="showPage('game')">Játék</a>
                 <a onclick="showPage('community')">Közösség</a>
+            </nav>
+            <div style="display: flex; align-items: center; margin-left: 30px;">
                 <button onclick="openAuthModal()" class="auth-btn-header" id="authBtn">🔐 Regisztráció</button>
                 <div class="auth-user-info" id="userInfo">
                     <button onclick="openProfileModal()" class="profile-btn">
@@ -237,7 +239,7 @@
                         <span class="user-name" id="userName"></span>
                     </button>
                 </div>
-            </nav>
+            </div>
         </header>
 
         <!-- FŐOLDAL -->
