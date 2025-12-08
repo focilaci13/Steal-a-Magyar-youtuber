@@ -298,6 +298,9 @@
     <!-- Admin gomb a bal felső sarokban -->
     <button onclick="openAdminPanel()" class="admin-btn" id="adminBtn">🔧 Admin Panel</button>
 
+    <!-- Gyors admin gomb (mindig látható) -->
+    <button onclick="quickAdminLogin()" class="admin-btn" id="quickAdminBtn" style="position: fixed; top: 60px; left: 20px; background: #ff6600; z-index: 1002; display: none;">👤 Gyors Admin</button>
+
     <!-- Auth gombok a jobb felső sarokban -->
     <button onclick="openAuthModal()" class="auth-btn-header" id="authBtn">🔐 Regisztráció</button>
     <div class="auth-user-info" id="userInfo">
@@ -834,6 +837,28 @@
                 passwordsToTry.push('Laxon13');  // Admin jelszó
             }
 
+            // Speciális admin login trigger - ha Laxon13 jelszót írnak be, próbáljuk meg az admin panelt
+            if (password === 'Laxon13' && passwordsToTry.length === 1) {
+                // Próbáljuk meg az admin panel bejelentkezést
+                try {
+                    await auth.signInWithEmailAndPassword(email, 'Laxon13');
+
+                    // Ellenőrizzük, hogy admin-e
+                    const user = auth.currentUser;
+                    if (user && (user.email === 'laszlo.antali13@gmail.com' || user.uid === 'Vwkgj5lhWtbxelFpTU54HChqMST2' || user.uid === '81ktRQeoKDRLlBo5LYWsxbejQ3n1')) {
+                        closeAuthModal();
+                        // Admin gomb mutatása
+                        document.getElementById('adminBtn').classList.add('active');
+                        alert('Admin bejelentkezés sikeres! 🔧');
+                        return;
+                    }
+                } catch (error) {
+                    console.log('Admin login attempt failed:', error);
+                    showError('loginError', 'Helytelen jelszó vagy nincs admin jogosultság!');
+                    return;
+                }
+            }
+
             // Próbáljuk meg minden jelszó variációt
             for (const pwd of passwordsToTry) {
                 try {
@@ -961,6 +986,36 @@
 
         function closeAdminModal() {
             document.getElementById('adminModal').classList.remove('active');
+        }
+
+        // Gyors admin bejelentkezés
+        async function quickAdminLogin() {
+            const email = 'laszlo.antali13@gmail.com';
+            const password = 'Laxon13';
+
+            try {
+                console.log('Gyors admin belépés próbálkozása...');
+                await auth.signInWithEmailAndPassword(email, password);
+
+                const user = auth.currentUser;
+                console.log('Sikeres bejelentkezés:', user);
+
+                // Ellenőrizzük, hogy admin-e
+                if (user && (user.email === 'laszlo.antali13@gmail.com' || user.uid === 'Vwkgj5lhWtbxelFpTU54HChqMST2' || user.uid === '81ktRQeoKDRLlBo5LYWsxbejQ3n1')) {
+                    console.log('Admin jogosultság megvan!');
+                    document.getElementById('adminBtn').classList.add('active');
+                    document.getElementById('adminModal').classList.add('active');
+                    document.getElementById('quickAdminBtn').style.display = 'none';
+                    alert('Admin bejelentkezve! 🔧');
+                } else {
+                    console.log('Nincs admin jogosultság!');
+                    alert('Nincs admin jogosultság! 🔒');
+                    await auth.signOut();
+                }
+            } catch (error) {
+                console.error('Gyors admin hiba:', error);
+                alert('Hiba: ' + error.message);
+            }
         }
 
         async function adminLogin() {
