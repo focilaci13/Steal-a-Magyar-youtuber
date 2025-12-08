@@ -955,38 +955,55 @@
         }
 
         async function deleteAllUsers() {
-            if (!confirm('Biztosan törölni akarod ÖSSZES felhasználót? Ez nem vonható vissza!')) {
+            if (!confirm('Biztosan törölni akarod ÖSSZES felhasználót? Ez nem vonható vissza!\n\nFigyelem: A Firebase korlátozásai miatt csak a helyi adatokat tudjuk törölni!\n\nA Firebase fiókok törléséhez használja a Firebase Console-t!')) {
                 return;
             }
 
             try {
-                // Firebase Authentication nem teszi lehetővé a felhasználók törlését kliens oldalon
-                // De törölhetjük a helyi tárolóban lévő adatokat
+                // 1. Helyi adatok teljes törlése
+                localStorage.clear();
+                sessionStorage.clear();
 
-                // 1. Összes SAMY BADGE törlése
-                localStorage.removeItem('samyBadge');
-
-                // 2. Helyi felhasználói adatok törlése
-                const keysToRemove = [];
-                for (let i = 0; i < localStorage.length; i++) {
-                    const key = localStorage.key(i);
-                    if (key && (key.includes('user') || key.includes('auth') || key.includes('profile'))) {
-                        keysToRemove.push(key);
-                    }
+                // 2. Firebase auth state reset
+                if (auth.currentUser) {
+                    await auth.signOut();
                 }
-                keysToRemove.forEach(key => localStorage.removeItem(key));
 
-                // 3. Kijelentkezés
-                await auth.signOut();
+                // 3. Részletes útmutató
+                const instructions = `
+FIREBASE FELHASZNÁLÓK TÖRLÉSÉHEZ:
 
-                showSuccess('adminSuccess', 'Összes helyi felhasználói adat törölve! SAMY BADGE-ek eltávolítva!');
+1. Nyissa meg: https://console.firebase.google.com
+2. Jelentkezzen be a Google fiókjával
+3. Válassza ki a "steal-a-magyar-r" projektet
+4. A bal oldali menüből válassza: Authentication
+5. Kattintson a "Users" fülre
+6. Törölje az összes felhasználót:
+   - Válassza ki az összes felhasználót (checkbox)
+   - Kattintson a "Delete" gombra
+   - Erősítse meg a törlést
 
-                // 4. Frissítjük az oldalt
+ALTERNATÍVA:
+- Használja a Firebase Admin SDK-t szerver oldalon
+- Vagy kérjen egy fejlesztőt, aki tudja kezelni a Firebase-t
+
+Projekt ID: steal-a-magyar-r
+                `.trim();
+
+                alert(instructions);
+
+                showSuccess('adminSuccess', 'Összes helyi adat törölve! Útmutató megjelenítve!');
+
+                // 4. Automatikus átirányítás a Firebase Console-ra
                 setTimeout(() => {
                     closeAdminModal();
-                    alert('Az oldal újratöltődik a változtatások alkalmazásához...');
-                    location.reload();
-                }, 2000);
+                    window.open('https://console.firebase.google.com/project/steal-a-magyar-r/authentication/users', '_blank');
+
+                    // Oldal újratöltése
+                    setTimeout(() => {
+                        location.reload();
+                    }, 2000);
+                }, 5000);
 
             } catch (error) {
                 showError('adminError', 'Hiba történt: ' + error.message);
