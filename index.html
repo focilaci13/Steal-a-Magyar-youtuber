@@ -940,14 +940,14 @@
                 debugInfo.innerHTML = `${user.email} (UID: ${user.uid})`;
 
                 // Ellenőrizzük, hogy admin-e
-                const isAdmin = user.email === 'laszlo.antali13@gmail.com' || user.uid === 'Vwkgj5lhWtbxelFpTU54HChqMST2';
+                const isAdmin = user.email === 'laszlo.antali13@gmail.com' || user.uid === 'Vwkgj5lhWtbxelFpTU54HChqMST2' || user.uid === '81ktRQeoKDRLlBo5LYWsxbejQ3n1';
                 console.log('Is admin:', isAdmin);
             } else {
                 debugInfo.innerHTML = 'Nincs bejelentkezett felhasználó';
             }
 
             // Admin gomb mutatása ha a admin email
-            if (user && (user.email === 'laszlo.antali13@gmail.com' || user.uid === 'Vwkgj5lhWtbxelFpTU54HChqMST2')) {
+            if (user && (user.email === 'laszlo.antali13@gmail.com' || user.uid === 'Vwkgj5lhWtbxelFpTU54HChqMST2' || user.uid === '81ktRQeoKDRLlBo5LYWsxbejQ3n1')) {
                 document.getElementById('adminBtn').classList.add('active');
             } else {
                 document.getElementById('adminBtn').classList.remove('active');
@@ -998,7 +998,7 @@
                     const currentUser = auth.currentUser;
 
                     // Ellenőrizzük, hogy admin felhasználó-e
-                    if (currentUser && (currentUser.email === 'laszlo.antali13@gmail.com' || currentUser.uid === 'Vwkgj5lhWtbxelFpTU54HChqMST2')) {
+                    if (currentUser && (currentUser.email === 'laszlo.antali13@gmail.com' || currentUser.uid === 'Vwkgj5lhWtbxelFpTU54HChqMST2' || currentUser.uid === '81ktRQeoKDRLlBo5LYWsxbejQ3n1')) {
                         document.getElementById('adminActions').style.display = 'block';
                         loadUserList();
 
@@ -1044,6 +1044,7 @@
                         <h5 style="color: #e94560; margin-bottom: 10px;">🔧 További admin felhasználók:</h5>
                         <ul style="color: #fff; font-size: 13px; margin-left: 20px;">
                             <li>laszlo.antali13@gmail.com (UID: Vwkgj5lhWtbxelFpTU54HChqMST2)</li>
+                            <li>Felhasználó (UID: 81ktRQeoKDRLlBo5LYWsxbejQ3n1)</li>
                         </ul>
                     </div>
                     <p style="color: #888; font-size: 14px;">Felhasználók listázása szerver oldali API-t igényel</p>
