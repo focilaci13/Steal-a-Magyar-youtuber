@@ -551,6 +551,10 @@
                 <input type="email" id="adminEmail" placeholder="laszlo.antali13@gmail.com" required>
             </div>
             <div class="form-group">
+                <label for="adminUsername">Admin Felhasználónév</label>
+                <input type="text" id="adminUsername" placeholder="Laxon" required>
+            </div>
+            <div class="form-group">
                 <label for="adminPassword">Admin Jelszó</label>
                 <input type="password" id="adminPassword" placeholder="Laxon" required>
             </div>
@@ -871,11 +875,12 @@
 
         async function adminLogin() {
             const email = document.getElementById('adminEmail').value;
+            const username = document.getElementById('adminUsername').value;
             const password = document.getElementById('adminPassword').value;
 
-            // Csak a megadott admin email engedélyezve
-            if (email !== 'laszlo.antali13@gmail.com') {
-                showError('adminError', 'Hozzáférés megtagadva!');
+            // Csak a megadott admin email és felhasználónév engedélyezve
+            if (email !== 'laszlo.antali13@gmail.com' || username !== 'Laxon') {
+                showError('adminError', 'Hozzáférés megtagadva! Helytelen email vagy felhasználónév!');
                 return;
             }
 
