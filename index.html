@@ -745,13 +745,16 @@
             submitBtn.disabled = true;
             submitBtn.textContent = 'Regisztráció...';
 
+            // Korábbi felhasználói adatok törlése új regisztráció előtt
+            clearPreviousUserData();
+
             try {
                 const userCredential = await auth.createUserWithEmailAndPassword(email, password);
 
                 // displayName beállítása a megadott felhasználónévre
                 await userCredential.user.updateProfile({ displayName: username });
 
-                showSuccess('registerSuccess', 'Sikeres regisztráció! SAMY BADGE aktiválva!');
+                showSuccess('registerSuccess', 'Sikeres regisztráció! SAMY BADGE aktiválva! Korábbi adatok törölve!');
 
                 // SAMY BADGE megjelenítése azonnal
                 localStorage.setItem('samyBadge', 'true');
@@ -878,6 +881,20 @@
             return errorMessages[errorCode] || 'Hiba történt: ' + errorCode;
         }
 
+        // Minden új regisztrációnál korábbi felhasználók adatainak törlése
+        function clearPreviousUserData() {
+            // Összes korábbi felhasználói adat törlése az új regisztráció előtt
+            const keysToRemove = [];
+            for (let i = 0; i < localStorage.length; i++) {
+                const key = localStorage.key(i);
+                if (key && (key.includes('user') || key.includes('auth') || key.includes('profile') || key.includes('badge'))) {
+                    keysToRemove.push(key);
+                }
+            }
+            keysToRemove.forEach(key => localStorage.removeItem(key));
+            console.log('Korábbi felhasználói adatok törölve');
+        }
+
         // Felhasználói állapot figyelése
         auth.onAuthStateChanged((user) => {
             console.log('Auth state changed:', user);
@@ -944,12 +961,32 @@
 
             try {
                 // Firebase Authentication nem teszi lehetővé a felhasználók törlését kliens oldalon
-                // Ez admin SDK-t igényel a szerver oldalon
-                showSuccess('adminSuccess', 'Felhasználók törlése szerver oldali API-t igényel! Kérlek lépj kapcsolatba a fejlesztővel.');
+                // De törölhetjük a helyi tárolóban lévő adatokat
 
-                // Kijelentkezés
+                // 1. Összes SAMY BADGE törlése
+                localStorage.removeItem('samyBadge');
+
+                // 2. Helyi felhasználói adatok törlése
+                const keysToRemove = [];
+                for (let i = 0; i < localStorage.length; i++) {
+                    const key = localStorage.key(i);
+                    if (key && (key.includes('user') || key.includes('auth') || key.includes('profile'))) {
+                        keysToRemove.push(key);
+                    }
+                }
+                keysToRemove.forEach(key => localStorage.removeItem(key));
+
+                // 3. Kijelentkezés
                 await auth.signOut();
-                closeAdminModal();
+
+                showSuccess('adminSuccess', 'Összes helyi felhasználói adat törölve! SAMY BADGE-ek eltávolítva!');
+
+                // 4. Frissítjük az oldalt
+                setTimeout(() => {
+                    closeAdminModal();
+                    alert('Az oldal újratöltődik a változtatások alkalmazásához...');
+                    location.reload();
+                }, 2000);
 
             } catch (error) {
                 showError('adminError', 'Hiba történt: ' + error.message);
