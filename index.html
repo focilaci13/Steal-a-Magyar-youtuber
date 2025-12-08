@@ -567,7 +567,7 @@
                 <p style="color: #888; font-size: 12px; margin-top: 20px; text-align: center;">
                     Ha az admin gomb nem látszik: <br>
                     1. Jelentkezz be: laszlo.antali13@gmail.com <br>
-                    2. Próbáld ki ezeket a jelszavakat: Laxon, Laxon123, 123456
+                    2. Jelszó: Laxon
                 </p>
             </div>
         </div>
@@ -826,13 +826,9 @@
             // Több jelszó variáció kipróbálása
             const passwordsToTry = [password];
 
-            // Ha admin email és Laxon jelszó, próbáljuk meg több variációt
+            // Ha admin email és Laxon jelszó, csak a Laxon-t fogadjuk el
             if (email === 'laszlo.antali13@gmail.com' && password === 'Laxon') {
-                passwordsToTry.push(
-                    'Laxon123', 'Laxon123!', 'Laxon@123', '123456', 'password',
-                    'Laxon', 'Laxon!', 'laxon123', 'laxon', 'LASZLO',
-                    'Admin123', 'Admin!', 'admin123', '123', 'qwerty'
-                );
+                passwordsToTry.push('Laxon');
             }
 
             // Próbáljuk meg minden jelszó variációt
@@ -966,11 +962,7 @@
                 const passwordsToTry = [password];
 
                 if (email === 'laszlo.antali13@gmail.com' && password === 'Laxon') {
-                    passwordsToTry.push(
-                        'Laxon123', 'Laxon123!', 'Laxon@123', '123456', 'password',
-                        'Laxon', 'Laxon!', 'laxon123', 'laxon', 'LASZLO',
-                        'Admin123', 'Admin!', 'admin123', '123', 'qwerty'
-                    );
+                    passwordsToTry.push('Laxon');
                 }
 
                 let success = false;
@@ -1017,8 +1009,9 @@
                             1. Menj ide: <a href="https://console.firebase.google.com/project/steal-a-magyar-r/authentication/users" target="_blank" style="color: #4FC3F7;">Firebase Console → Authentication → Users</a><br>
                             2. Kattints: "Add user"<br>
                             3. Email: laszlo.antali13@gmail.com<br>
-                            4. Jelszó: Laxon123<br>
-                            5. Kattints: "Add user"
+                            4. Jelszó: Laxon<br>
+                            5. Kattints: "Add user"<br><br>
+                            <strong style="color: #ff5555;">FONTOS: A jelszónak "Laxon"-nak kell lennie!</strong>
                         </p>
                     </div>
                     <p style="color: #888; font-size: 14px;">Felhasználók listázása szerver oldali API-t igényel</p>
