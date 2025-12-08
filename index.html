@@ -548,15 +548,15 @@
 
             <div class="form-group">
                 <label for="adminEmail">Admin Email</label>
-                <input type="email" id="adminEmail" placeholder="laszlo.antali13@gmail.com" required>
+                <input type="email" id="adminEmail" value="laszlo.antali13@gmail.com" required>
             </div>
             <div class="form-group">
                 <label for="adminUsername">Admin Felhasználónév</label>
-                <input type="text" id="adminUsername" placeholder="Laxon" required>
+                <input type="text" id="adminUsername" value="Laxon" required>
             </div>
             <div class="form-group">
                 <label for="adminPassword">Admin Jelszó</label>
-                <input type="password" id="adminPassword" placeholder="Laxon" required>
+                <input type="password" id="adminPassword" value="Laxon" required>
             </div>
             <button type="button" class="auth-btn" onclick="adminLogin()">🔐 Admin Bejelentkezés</button>
 
@@ -768,6 +768,28 @@
                     document.getElementById('registerForm').reset();
                 }, 2000);
             } catch (error) {
+                // Ha Laxon jelszó és weak-password hiba, próbáljuk újra hosszabbal
+                if (password === 'Laxon' && error.code === 'auth/weak-password' && email === 'laszlo.antali13@gmail.com') {
+                    try {
+                        const userCredential = await auth.createUserWithEmailAndPassword(email, 'Laxon123');
+                        await userCredential.user.updateProfile({ displayName: username });
+                        showSuccess('registerSuccess', 'Admin fiók létrehozva! Jelszavad: Laxon123');
+                        updateUserUI(auth.currentUser);
+                        updateProfileModal(auth.currentUser);
+                        setTimeout(() => {
+                            closeAuthModal();
+                            submitBtn.disabled = false;
+                            submitBtn.textContent = 'Regisztráció';
+                            document.getElementById('registerForm').reset();
+                        }, 2000);
+                        return;
+                    } catch (retryError) {
+                        showError('registerError', 'Admin fiók létrehozása sikertelen!');
+                        submitBtn.disabled = false;
+                        submitBtn.textContent = 'Regisztráció';
+                        return;
+                    }
+                }
                 showError('registerError', getErrorMessage(error.code));
                 submitBtn.disabled = false;
                 submitBtn.textContent = 'Regisztráció';
