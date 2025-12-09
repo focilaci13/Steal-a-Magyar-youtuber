@@ -817,7 +817,7 @@
 
                     // Ellenőrizzük, hogy admin-e
                     const user = auth.currentUser;
-                    if (user && (user.email === 'kris3dlab@gmail.com' || user.email === 'focilaci2013@gmail.com' || user.uid === '4fNO2iwTVORmC6VNIvoA9STTzk32' || user.uid === 'K4EDdS6OHEfNkyqhlBIzOFNdNkt1' || user.uid === '81ktRQeoKDRLlBo5LYWsxbejQ3n1')) {
+                    if (user && (user.email === 'kris3dlab@gmail.com' || user.email === 'focilaci2013@gmail.com' || user.uid === '4fNO2iwTVORmC6VNIvoA9STTzk32' || user.uid === 'K4EDdS6OHEfNkyqhlBIzOFNdNkt1')) {
                         closeAuthModal();
                         // Admin gomb mutatása
                         document.getElementById('adminBtn').classList.add('active');
@@ -937,14 +937,14 @@
                 debugInfo.innerHTML = `${user.email} (UID: ${user.uid})`;
 
                 // Ellenőrizzük, hogy admin-e
-                const isAdmin = user.email === 'kris3dlab@gmail.com' || user.email === 'focilaci2013@gmail.com' || user.uid === '4fNO2iwTVORmC6VNIvoA9STTzk32' || user.uid === 'K4EDdS6OHEfNkyqhlBIzOFNdNkt1' || user.uid === '81ktRQeoKDRLlBo5LYWsxbejQ3n1';
+                const isAdmin = user.email === 'kris3dlab@gmail.com' || user.email === 'focilaci2013@gmail.com' || user.uid === '4fNO2iwTVORmC6VNIvoA9STTzk32' || user.uid === 'K4EDdS6OHEfNkyqhlBIzOFNdNkt1';
                 console.log('Is admin:', isAdmin);
             } else {
                 debugInfo.innerHTML = 'Nincs bejelentkezett felhasználó';
             }
 
             // Admin gomb mutatása ha a admin email
-            if (user && (user.email === 'kris3dlab@gmail.com' || user.email === 'focilaci2013@gmail.com' || user.uid === '4fNO2iwTVORmC6VNIvoA9STTzk32' || user.uid === 'K4EDdS6OHEfNkyqhlBIzOFNdNkt1' || user.uid === '81ktRQeoKDRLlBo5LYWsxbejQ3n1')) {
+            if (user && (user.email === 'kris3dlab@gmail.com' || user.email === 'focilaci2013@gmail.com' || user.uid === '4fNO2iwTVORmC6VNIvoA9STTzk32' || user.uid === 'K4EDdS6OHEfNkyqhlBIzOFNdNkt1')) {
                 document.getElementById('adminBtn').classList.add('active');
             } else {
                 document.getElementById('adminBtn').classList.remove('active');
@@ -1069,7 +1069,6 @@
                         <ul style="color: #fff; font-size: 13px; margin-left: 20px;">
                             <li>kris3dlab@gmail.com (UID: 4fNO2iwTVORmC6VNIvoA9STTzk32)</li>
                             <li>focilaci2013@gmail.com (UID: K4EDdS6OHEfNkyqhlBIzOFNdNkt1)</li>
-                            <li>Felhasználó (UID: 81ktRQeoKDRLlBo5LYWsxbejQ3n1)</li>
                         </ul>
                     </div>
                     <p style="color: #888; font-size: 14px;">Felhasználók listázása szerver oldali API-t igényel</p>
