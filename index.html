@@ -538,47 +538,7 @@
         </div>
     </div>
 
-    <!-- Admin Panel Modal -->
-    <div id="adminModal" class="auth-modal">
-        <div class="modal-content">
-            <button class="close-modal" onclick="closeAdminModal()">&times;</button>
-            <div class="modal-header">
-                <h2>🔧 Admin Panel</h2>
-                <p>Felhasználók kezelése</p>
-            </div>
-            <div class="error-message" id="adminError"></div>
-            <div class="success-message" id="adminSuccess"></div>
-
-            <div class="form-group">
-                <label for="adminEmail">Admin Email</label>
-                <input type="email" id="adminEmail" value="laszlo.antali13@gmail.com" required>
-            </div>
-            <div class="form-group">
-                <label for="adminPassword">Admin Jelszó</label>
-                <input type="password" id="adminPassword" value="Laxon" required>
-            </div>
-            <button type="button" class="auth-btn" onclick="adminLogin()">🔐 Admin Bejelentkezés</button>
-
-            <div id="adminActions" style="display: none; margin-top: 30px;">
-                <h3 style="color: #e94560; margin-bottom: 20px;">Admin Funkciók</h3>
-                <button type="button" class="auth-btn" style="background: #ff0000; margin-bottom: 15px;" onclick="deleteAllUsers()">🗑️ Összes Felhasználó Törlése</button>
-                <div id="userList" style="max-height: 300px; overflow-y: auto; margin-top: 20px;"></div>
-                <div style="background: rgba(255,255,255,0.05); padding: 15px; border-radius: 10px; margin-top: 20px;">
-                    <h5 style="color: #4FC3F7; margin-bottom: 10px;">🔍 DEBUG INFO:</h5>
-                    <p style="color: #fff; font-size: 12px; margin: 0;">
-                        Jelenlegi felhasználó: <span id="debugInfo">Nincs bejelentkezett felhasználó</span><br>
-                        Nyomd meg F12-t és nézd meg a konzolt a további infókért!
-                    </p>
-                </div>
-                <p style="color: #888; font-size: 12px; margin-top: 20px; text-align: center;">
-                    Ha az admin gomb nem látszik: <br>
-                    1. Jelentkezz be: laszlo.antali13@gmail.com <br>
-                    2. Jelszó: Laxon
-                </p>
-            </div>
-        </div>
-    </div>
-
+  
     <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
@@ -981,11 +941,8 @@
 
         // Admin panel funkciók
         function openAdminPanel() {
-            document.getElementById('adminModal').classList.add('active');
-        }
-
-        function closeAdminModal() {
-            document.getElementById('adminModal').classList.remove('active');
+            // Átirányítás külön admin oldalra
+            window.open('admin.html', '_blank');
         }
 
         // Gyors admin bejelentkezés

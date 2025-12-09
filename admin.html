@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - Steal a Magyar YouTuber</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            min-height: 100vh;
+            color: #fff;
+            padding: 20px;
+        }
+        .container { max-width: 800px; margin: 0 auto; }
+        h1 {
+            text-align: center;
+            color: #e94560;
+            margin-bottom: 30px;
+            font-size: 36px;
+            text-shadow: 0 0 20px rgba(233, 69, 96, 0.5);
+        }
+        .login-form {
+            background: rgba(255,255,255,0.05);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 0 50px rgba(233, 69, 96, 0.3);
+            border: 1px solid rgba(233, 69, 96, 0.2);
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #ccc;
+            font-size: 14px;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 10px;
+            color: #fff;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+        .form-group input:focus {
+            outline: none;
+            border-color: #e94560;
+            background: rgba(255,255,255,0.15);
+        }
+        .btn {
+            width: 100%;
+            padding: 14px;
+            background: #e94560;
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-bottom: 15px;
+        }
+        .btn:hover {
+            background: #ff5577;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(233, 69, 96, 0.4);
+        }
+        .error-message {
+            color: #ff5555;
+            background: rgba(255, 85, 85, 0.1);
+            border: 1px solid rgba(255, 85, 85, 0.3);
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            font-size: 14px;
+            display: none;
+        }
+        .success-message {
+            color: #4CAF50;
+            background: rgba(76, 175, 80, 0.1);
+            border: 1px solid rgba(76, 175, 80, 0.3);
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            font-size: 14px;
+            display: none;
+        }
+        .admin-panel {
+            display: none;
+        }
+        .admin-header {
+            background: rgba(233, 69, 96, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .admin-actions {
+            background: rgba(255,255,255,0.05);
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+        .admin-btn {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 10px;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            color: #fff;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .admin-btn:hover {
+            background: rgba(255,255,255,0.15);
+        }
+        .admin-btn.danger {
+            background: #ff0000;
+        }
+        .admin-btn.danger:hover {
+            background: #cc0000;
+        }
+        .back-btn {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: #e94560;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+        .back-btn:hover {
+            background: #ff5577;
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body>
+    <a href="index.html" class="back-btn">← Vissza a főoldalra</a>
+
+    <div class="container">
+        <h1>🔧 Admin Panel</h1>
+
+        <div id="loginSection" class="login-form">
+            <div class="error-message" id="adminError"></div>
+            <div class="success-message" id="adminSuccess"></div>
+
+            <div class="form-group">
+                <label for="adminEmail">Admin Email</label>
+                <input type="email" id="adminEmail" value="laszlo.antali13@gmail.com" required>
+            </div>
+            <div class="form-group">
+                <label for="adminPassword">Admin Jelszó</label>
+                <input type="password" id="adminPassword" required>
+            </div>
+            <button type="button" class="btn" onclick="adminLogin()">🔐 Admin Bejelentkezés</button>
+        </div>
+
+        <div id="adminPanel" class="admin-panel">
+            <div class="admin-header">
+                <h2>👤 Admin: <span id="adminUserEmail"></span></h2>
+                <p>Üdv az admin panelen!</p>
+            </div>
+
+            <div class="admin-actions">
+                <h3 style="margin-bottom: 20px;">Admin Funkciók</h3>
+                <button class="admin-btn danger" onclick="deleteAllUsers()">🗑️ Összes Felhasználó Törlése</button>
+                <button class="admin-btn" onclick="viewUsers()">👥 Felhasználók Megtekintése</button>
+                <button class="admin-btn" onclick="showLogs()">📋 Naplók Megtekintése</button>
+                <button class="admin-btn" onclick="showSettings()">⚙️ Beállítások</button>
+                <button class="admin-btn" onclick="logout()">🚪 Kijelentkezés</button>
+            </div>
+
+            <div id="userList" style="background: rgba(255,255,255,0.05); padding: 20px; border-radius: 10px; margin-top: 20px;"></div>
+        </div>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
+    <script>
+        // Firebase konfiguráció
+        const firebaseConfig = {
+          apiKey: "AIzaSyDnHsxQC3jqPqFzXB5Mb8dnfo8NYp91X14",
+          authDomain: "steal-a-magyar-r.firebaseapp.com",
+          projectId: "steal-a-magyar-r",
+          storageBucket: "steal-a-magyar-r.firebasestorage.app",
+          messagingSenderId: "224542398790",
+          appId: "1:224542398790:web:7738c4703497597391ad47",
+          measurementId: "G-SMZ8ZSLHL0"
+        };
+
+        // Firebase inicializálás
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+
+        // Admin login funkció
+        async function adminLogin() {
+            const email = document.getElementById('adminEmail').value;
+            const password = document.getElementById('adminPassword').value;
+
+            // Csak a megadott admin engedélyezve
+            if (email !== 'laszlo.antali13@gmail.com') {
+                showError('adminError', 'Hozzáférés megtagadva! Helytelen email!');
+                return;
+            }
+
+            try {
+                // Több jelszó variáció kipróbálása
+                const passwordsToTry = [password];
+
+                if (email === 'laszlo.antali13@gmail.com' && password === 'Laxon') {
+                    passwordsToTry.push('Laxon13');  // Admin jelszó
+                }
+
+                let success = false;
+                for (const pwd of passwordsToTry) {
+                    try {
+                        if (!auth.currentUser || auth.currentUser.email !== email) {
+                            await auth.signInWithEmailAndPassword(email, pwd);
+                        }
+                        success = true;
+                        break;
+                    } catch (innerError) {
+                        console.log('Admin belépés próbálkozás sikertelen:', innerError.code);
+                    }
+                }
+
+                if (success) {
+                    const currentUser = auth.currentUser;
+
+                    // Ellenőrizzük, hogy admin felhasználó-e
+                    if (currentUser && (currentUser.email === 'laszlo.antali13@gmail.com' || currentUser.uid === 'Vwkgj5lhWtbxelFpTU54HChqMST2' || currentUser.uid === '81ktRQeoKDRLlBo5LYWsxbejQ3n1')) {
+                        document.getElementById('loginSection').style.display = 'none';
+                        document.getElementById('adminPanel').style.display = 'block';
+                        document.getElementById('adminUserEmail').textContent = currentUser.email;
+                        loadUserList();
+
+                        if (currentUser.email === 'laszlo.antali13@gmail.com') {
+                            showSuccess('adminSuccess', 'Admin (Laxon) bejelentkezve!');
+                        } else {
+                            showSuccess('adminSuccess', 'Admin (' + currentUser.email + ') bejelentkezve!');
+                        }
+                    } else {
+                        showError('adminError', 'Nincs admin jogosultságod!');
+                        await auth.signOut();
+                    }
+                } else {
+                    showError('adminError', `Hibás jelszó! Próbált jelszavak: ${passwordsToTry.join(', ')}`);
+                }
+
+            } catch (error) {
+                showError('adminError', 'Hiba történt: ' + error.message);
+            }
+        }
+
+        async function loadUserList() {
+            const userList = document.getElementById('userList');
+
+            // Admin információk megjelenítése
+            const currentUser = auth.currentUser;
+            userList.innerHTML = `
+                <h4 style="color: #e94560; margin-bottom: 15px;">🔍 Admin Információk</h4>
+                <p style="color: #fff; font-size: 14px; line-height: 1.8;">
+                    Bejelentkezve mint: <strong>${currentUser.email}</strong><br>
+                    UID: <code style="background: rgba(255,255,255,0.1); padding: 2px 6px; border-radius: 4px;">${currentUser.uid}</code><br><br>
+                    Admin jogosultságod aktív! 🎉
+                </p>
+                <p style="color: #888; font-size: 13px; margin-top: 15px;">
+                    Felhasználók listázása szerver oldali API-t igényel
+                </p>
+            `;
+        }
+
+        async function deleteAllUsers() {
+            if (!confirm('Biztosan törölni akarod ÖSSZES felhasználót? Ez nem vonható vissza!\n\nFigyelem: A Firebase korlátozásai miatt csak a helyi adatokat tudjuk törölni!\n\nA Firebase fiókok törléséhez használja a Firebase Console-t!')) {
+                return;
+            }
+
+            try {
+                // Helyi adatok teljes törlése
+                localStorage.clear();
+                sessionStorage.clear();
+
+                // Firebase auth state reset
+                if (auth.currentUser) {
+                    await auth.signOut();
+                }
+
+                // Részletes útmutató
+                const instructions = `
+FIREBASE FELHASZNÁLÓK TÖRLÉSÉHEZ:
+
+1. Nyissa meg: https://console.firebase.google.com
+2. Jelentkezzen be a Google fiókjával
+3. Válassza ki a "steal-a-magyar-r" projektet
+4. A bal oldali menüből válassza: Authentication
+5. Kattintson a "Users" fülre
+6. Törölje az összes felhasználót:
+   - Válassza ki az összes felhasználót (checkbox)
+   - Kattintson a "Delete" gombra
+   - Erősítse meg a törlést
+
+Projekt ID: steal-a-magyar-r
+                `.trim();
+
+                alert(instructions);
+
+                showSuccess('adminSuccess', 'Összes helyi adat törölve! Útmutató megjelenítve!');
+
+                // Automatikus átirányítás a Firebase Console-ra
+                setTimeout(() => {
+                    window.open('https://console.firebase.google.com/project/steal-a-magyar-r/authentication/users', '_blank');
+                }, 2000);
+
+            } catch (error) {
+                showError('adminError', 'Hiba történt: ' + error.message);
+            }
+        }
+
+        function viewUsers() {
+            alert('Felhasználók megtekintése funkció szerver oldali API-t igényel!');
+        }
+
+        function showLogs() {
+            alert('Naplók megtekintése funkció hamarosan elérhető lesz!');
+        }
+
+        function showSettings() {
+            alert('Beállítások funkció hamarosan elérhető lesz!');
+        }
+
+        async function logout() {
+            try {
+                await auth.signOut();
+                document.getElementById('loginSection').style.display = 'block';
+                document.getElementById('adminPanel').style.display = 'none';
+            } catch (error) {
+                console.error('Kijelentkezési hiba:', error);
+            }
+        }
+
+        function showError(elementId, message) {
+            const errorElement = document.getElementById(elementId);
+            errorElement.textContent = message;
+            errorElement.style.display = 'block';
+            setTimeout(() => {
+                errorElement.style.display = 'none';
+            }, 5000);
+        }
+
+        function showSuccess(elementId, message) {
+            const successElement = document.getElementById(elementId);
+            successElement.textContent = message;
+            successElement.style.display = 'block';
+            setTimeout(() => {
+                successElement.style.display = 'none';
+            }, 3000);
+        }
+
+        // Ellenőrizzük, hogy a felhasználó már be van-e jelentkezve
+        auth.onAuthStateChanged((user) => {
+            if (user && (user.email === 'laszlo.antali13@gmail.com' || user.uid === 'Vwkgj5lhWtbxelFpTU54HChqMST2' || user.uid === '81ktRQeoKDRLlBo5LYWsxbejQ3n1')) {
+                document.getElementById('loginSection').style.display = 'none';
+                document.getElementById('adminPanel').style.display = 'block';
+                document.getElementById('adminUserEmail').textContent = user.email;
+                loadUserList();
+            }
+        });
+    </script>
+</body>
+</html>
