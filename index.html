@@ -8,11 +8,11 @@
     <meta name="keywords" content="steal a magyar youtuber, lopd el, magyar youtuber, roblox játék, youtuber gyűjtő, magyar roblox, steal youtuber, lopás játék">
     <meta name="author" content="Kris3DLab">
     <meta name="robots" content="index, follow">
-    <link rel="canonical" href="https://stealamagyaryoutuber.netlify.app/">
+    <link rel="canonical" href="https://focilaci13.github.io/Steal-a-Magyar-youtuber/">
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://stealamagyaryoutuber.netlify.app/">
+    <meta property="og:url" content="https://focilaci13.github.io/Steal-a-Magyar-youtuber/">
     <meta property="og:title" content="Steal a Magyar YouTuber - Lopd el a YouTubereket!">
     <meta property="og:description" content="Gyűjtsd össze a kedvenc magyar YouTubereidet ebben a Roblox játékban! Lopj, gyűjts és építsd fel a birodalmadat!">
 
@@ -75,6 +75,8 @@
         .btn-roblox:hover { box-shadow: 0 10px 30px rgba(0, 162, 255, 0.4); }
         .btn-discord { background: #5865F2; }
         .btn-discord:hover { box-shadow: 0 10px 30px rgba(88, 101, 242, 0.4); }
+        .btn-github { background: #24292e; }
+        .btn-github:hover { box-shadow: 0 10px 30px rgba(36, 41, 46, 0.4); }
         .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; padding: 60px 0; }
         .feature-card { background: rgba(255,255,255,0.05); padding: 30px; border-radius: 15px; text-align: center; transition: all 0.3s; border: 1px solid transparent; animation: slideIn 1s ease-out; }
         .feature-card:hover { transform: translateY(-10px) scale(1.02); border-color: rgba(255, 0, 0, 0.3); box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3); }
@@ -86,11 +88,12 @@
         .staff-card:hover { transform: scale(1.05); background: rgba(255,255,255,0.1); }
         .staff-card .name { font-size: 18px; font-weight: bold; color: #fff; }
         .staff-card .role { color: #e94560; font-size: 14px; margin-top: 5px; }
-        footer { text-align: center; padding: 30px; border-top: 1px solid rgba(255,255,255,0.1); color: #888; }
+        .footer { text-align: center; padding: 30px; border-top: 1px solid rgba(255,255,255,0.1); color: #888; }
         .social-links { display: flex; justify-content: center; gap: 20px; margin-bottom: 20px; }
         .social-links a { width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 24px; transition: all 0.3s; text-decoration: none; }
         .social-links .roblox-link { background: #00A2FF; color: white; }
         .social-links .discord-link { background: #5865F2; color: white; }
+        .social-links .github-link { background: #24292e; color: white; }
         .social-links a:hover { transform: scale(1.2) rotate(10deg); }
         .stats { display: flex; justify-content: center; gap: 40px; margin: 20px 0; flex-wrap: wrap; }
         .stat-item { text-align: center; }
@@ -137,7 +140,7 @@
             .how-to-play ul { font-size: 15px; }
             .discord-stats { gap: 30px; }
             .discord-stat .number { font-size: 32px; }
-            footer { padding: 20px 10px; }
+            .footer { padding: 20px 10px; }
             .social-links { gap: 15px; }
             .social-links a { width: 45px; height: 45px; font-size: 20px; }
         }
@@ -152,182 +155,11 @@
             .container { padding: 10px; }
             .yt-particles { display: none; }
         }
-
-        /* Auth modal stílusok */
-        .auth-modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.8); backdrop-filter: blur(5px); }
-        .auth-modal.active { display: flex; align-items: center; justify-content: center; animation: fadeIn 0.3s; }
-              @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        .modal-content { background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%); padding: 40px; border-radius: 20px; width: 90%; max-width: 400px; position: relative; box-shadow: 0 0 50px rgba(233, 69, 96, 0.3); border: 1px solid rgba(233, 69, 96, 0.2); animation: slideUp 0.3s; }
-        @keyframes slideUp { from { transform: translateY(50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-        .modal-header { text-align: center; margin-bottom: 30px; }
-        .modal-header h2 { color: #e94560; font-size: 28px; margin-bottom: 10px; }
-        .modal-tabs { display: flex; gap: 10px; margin-bottom: 20px; }
-        .tab-btn { flex: 1; padding: 10px; background: rgba(255,255,255,0.1); border: none; color: #fff; border-radius: 10px; cursor: pointer; transition: all 0.3s; }
-        .tab-btn.active { background: #e94560; transform: translateY(-2px); }
-        .tab-btn:hover { background: #ff5577; }
-        .auth-form { display: none; }
-        .auth-form.active { display: block; }
-        .form-group { margin-bottom: 20px; }
-        .form-group label { display: block; margin-bottom: 8px; color: #ccc; font-size: 14px; }
-        .form-group input { width: 100%; padding: 12px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); border-radius: 10px; color: #fff; font-size: 16px; transition: all 0.3s; }
-        .form-group input:focus { outline: none; border-color: #e94560; background: rgba(255,255,255,0.15); }
-        .form-group input::placeholder { color: #888; }
-        .auth-btn { width: 100%; padding: 14px; background: #e94560; color: #fff; border: none; border-radius: 10px; font-size: 16px; font-weight: bold; cursor: pointer; transition: all 0.3s; margin-bottom: 15px; }
-        .auth-btn:hover { background: #ff5577; transform: translateY(-2px); box-shadow: 0 5px 20px rgba(233, 69, 96, 0.4); }
-        .google-btn { background: #fff; color: #333; border: 1px solid #dadce0; display: flex; align-items: center; justify-content: center; gap: 10px; }
-        .google-btn:hover { background: #f8f9fa; box-shadow: 0 5px 20px rgba(66, 133, 244, 0.4); border-color: #c2c7c8; }
-        .google-icon { width: 20px; height: 20px; }
-
-        /* Mobil reszponzív a header gombnak */
-        @media (max-width: 768px) {
-            .auth-btn-header { top: 10px; right: 10px; padding: 8px 16px; font-size: 14px; }
-        }
-        @media (max-width: 480px) {
-            .auth-btn-header { position: fixed; top: auto; bottom: 20px; right: 20px; padding: 10px 18px; border-radius: 30px; box-shadow: 0 4px 20px rgba(233, 69, 96, 0.4); }
-        }
-        .close-modal { position: absolute; top: 15px; right: 15px; background: none; border: none; color: #888; font-size: 28px; cursor: pointer; transition: all 0.3s; }
-        .close-modal:hover { color: #e94560; transform: rotate(90deg); }
-        .error-message { color: #ff5555; background: rgba(255, 85, 85, 0.1); border: 1px solid rgba(255, 85, 85, 0.3); padding: 10px; border-radius: 8px; margin-bottom: 15px; font-size: 14px; display: none; }
-        .success-message { color: #4CAF50; background: rgba(76, 175, 80, 0.1); border: 1px solid rgba(76, 175, 80, 0.3); padding: 10px; border-radius: 8px; margin-bottom: 15px; font-size: 14px; display: none; }
-        .auth-user-info { display: none; align-items: center; gap: 15px; }
-        .auth-user-info.active { display: flex; }
-        .user-avatar {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: #ff0000;
-            color: white;
-            font-weight: bold;
-            font-size: 20px;
-            border: 2px solid #e94560;
-            box-shadow: 0 2px 10px rgba(233, 69, 96, 0.3);
-            text-transform: uppercase;
-        }
-        .user-name { color: #fff; font-weight: bold; }
-        .profile-btn { background: none; border: none; display: flex; align-items: center; gap: 10px; cursor: pointer; padding: 5px 10px; border-radius: 25px; transition: all 0.3s; }
-        .profile-btn:hover { background: rgba(255,255,255,0.1); }
-        .profile-modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.8); backdrop-filter: blur(5px); }
-        .profile-modal.active { display: flex; align-items: center; justify-content: center; animation: fadeIn 0.3s; }
-        .profile-content { background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%); padding: 40px; border-radius: 20px; width: 90%; max-width: 400px; position: relative; box-shadow: 0 0 50px rgba(233, 69, 96, 0.3); border: 1px solid rgba(233, 69, 96, 0.2); animation: slideUp 0.3s; }
-        .profile-header { text-align: center; margin-bottom: 30px; }
-        .profile-header h2 { color: #e94560; font-size: 28px; margin-bottom: 10px; }
-        .profile-avatar-section { text-align: center; margin-bottom: 30px; }
-        .profile-avatar-container { position: relative; display: inline-block; }
-        .profile-avatar-large {
-            width: 120px;
-            height: 120px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: #ff0000;
-            color: white;
-            font-weight: bold;
-            font-size: 60px;
-            border: 4px solid #e94560;
-            box-shadow: 0 5px 20px rgba(233, 69, 96, 0.4);
-            transition: all 0.3s;
-            text-transform: uppercase;
-        }
-        .profile-avatar-large:hover {
-            transform: scale(1.05);
-            box-shadow: 0 8px 30px rgba(233, 69, 96, 0.6);
-        }
-        .profile-info { text-align: center; margin-bottom: 30px; }
-        .profile-name { color: #fff; font-size: 22px; font-weight: bold; margin-bottom: 5px; }
-        .profile-email { color: #888; font-size: 14px; }
-        .profile-stats { display: flex; justify-content: space-around; margin-bottom: 30px; padding: 20px; background: rgba(255,255,255,0.05); border-radius: 15px; }
-        .profile-stat { text-align: center; }
-        .profile-stat .number { font-size: 24px; font-weight: bold; color: #e94560; }
-        .profile-stat .label { font-size: 12px; color: #888; }
-        .profile-actions { display: flex; flex-direction: column; gap: 10px; }
-        .profile-action-btn { width: 100%; padding: 12px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: #fff; border-radius: 10px; cursor: pointer; transition: all 0.3s; }
-        .profile-action-btn:hover { background: rgba(255,255,255,0.15); }
-        .profile-action-btn.logout { background: #ff5555; }
-        .profile-action-btn.logout:hover { background: #ff3333; }
-
-        /* Admin panel stílusok */
-        .admin-btn { position: fixed; top: 20px; left: 20px; background: #ff0000; color: white; border: none; padding: 10px 20px; border-radius: 20px; cursor: pointer; font-weight: bold; font-size: 14px; transition: all 0.3s; z-index: 1001; display: none; }
-        .admin-btn:hover { background: #cc0000; transform: translateY(-2px); box-shadow: 0 5px 20px rgba(255, 0, 0, 0.4); }
-        .admin-btn.active { display: block; }
-
-        /* KRIS BADGE stílusok */
-        .kris-badge {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            width: 200px;
-            height: 200px;
-            background: radial-gradient(circle, #FFD700, #FFA500, #FF8C00);
-            color: #333;
-            border-radius: 50%;
-            margin: 30px auto;
-            font-weight: bold;
-            font-size: 22px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-            box-shadow: 0 0 30px rgba(255, 215, 0, 0.6), 0 0 60px rgba(255, 165, 0, 0.4), inset 0 0 20px rgba(255,255,255,0.3);
-            animation: badgeGlow 2s ease-in-out infinite alternate, badgePulse 3s ease-in-out infinite, rotateHorizontal 4s linear infinite;
-            border: 3px solid #FFD700;
-            position: relative;
-            overflow: hidden;
-        }
-        .kris-badge::before {
-            content: '';
-            position: absolute;
-            top: -10%;
-            left: -10%;
-            width: 120%;
-            height: 120%;
-            background: radial-gradient(circle, rgba(255,255,255,0.3) 0%, transparent 70%);
-            animation: shimmer 4s linear infinite;
-        }
-        .badge-text {
-            letter-spacing: 1px;
-            line-height: 1.2;
-            text-align: center;
-            z-index: 1;
-            position: relative;
-        }
-        @keyframes badgeGlow {
-            from { box-shadow: 0 0 30px rgba(255, 215, 0, 0.6), 0 0 60px rgba(255, 165, 0, 0.4), inset 0 0 20px rgba(255,255,255,0.3); }
-            to { box-shadow: 0 0 50px rgba(255, 215, 0, 0.8), 0 0 80px rgba(255, 165, 0, 0.6), inset 0 0 30px rgba(255,255,255,0.5); }
-        }
-        @keyframes badgePulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-        }
-        @keyframes rotateHorizontal {
-            from { transform: rotateY(0deg); }
-            to { transform: rotateY(360deg); }
-        }
-        @keyframes shimmer {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
     </style>
 </head>
 <body>
     <!-- YouTube logók particle rendszer -->
     <div class="yt-particles" id="ytParticles"></div>
-
-    <!-- Admin gomb a bal felső sarokban -->
-    <button onclick="openAdminPanel()" class="admin-btn" id="adminBtn">🔧 Admin Panel</button>
-
-    <!-- Gyors admin gomb (mindig látható) -->
-    <button onclick="quickAdminLogin()" class="admin-btn" id="quickAdminBtn" style="position: fixed; top: 60px; left: 20px; background: #ff6600; z-index: 1002; display: none;">👤 Gyors Admin</button>
-
-    <!-- Auth gombok a jobb felső sarokban -->
-    <button onclick="openAuthModal()" class="auth-btn-header" id="authBtn">🔐 Regisztráció</button>
-    <div class="auth-user-info" id="userInfo">
-        <button onclick="openProfileModal()" class="profile-btn">
-            <div class="user-avatar" id="userAvatar"></div>
-            <span class="user-name" id="userName"></span>
-        </button>
-    </div>
 
     <div class="container">
         <header>
@@ -336,6 +168,7 @@
                 <a onclick="showPage('home')" class="active">Főoldal</a>
                 <a onclick="showPage('game')">Játék</a>
                 <a onclick="showPage('community')">Közösség</a>
+                <a href="https://github.com/focilaci13/Steal-a-Magyar-youtuber" target="_blank">GitHub</a>
             </nav>
         </header>
 
@@ -347,10 +180,12 @@
                 <div class="stats">
                     <div class="stat-item"><div class="number">361+</div><div class="label">Discord tag</div></div>
                     <div class="stat-item"><div class="number">67+</div><div class="label">Online játékos</div></div>
+                    <div class="stat-item"><div class="number">1+</div><div class="label">GitHub Contributor</div></div>
                 </div>
                 <div class="buttons">
                     <a href="https://www.roblox.com/games/140082406464674/Steal-a-Magyar-Youtuber" target="_blank" class="btn btn-roblox">&#127918; Játék Indítása</a>
                     <a href="https://discord.gg/eX6JdCeUuH" target="_blank" class="btn btn-discord">&#128172; Discord Szerver</a>
+                    <a href="https://github.com/focilaci13/Steal-a-Magyar-youtuber" target="_blank" class="btn btn-github"><i class="fab fa-github"></i> GitHub Projekt</a>
                 </div>
             </section>
             <section class="features">
@@ -407,8 +242,82 @@
         <div id="community" class="page">
             <div class="page-title">
                 <h1>&#128172; Közösség</h1>
-                <p>Csatlakozz a Steal a Magyar YouTuber Discord szerverhez!</p>
+                <p>Csatlakozz a Steal a Magyar YouTuber fejlesztői csapatához!</p>
             </div>
+
+            <div style="background: rgba(24, 24, 36, 0.8); border: 1px solid rgba(48, 54, 61, 0.5); border-radius: 20px; padding: 30px; margin: 40px auto; max-width: 900px;">
+                <h2 style="color: #24292e; background: linear-gradient(135deg, #0366d6, #4078c0); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 20px; text-align: center;">
+                    <i class="fab fa-github"></i> GitHub Projekt
+                </h2>
+                <p style="font-size: 18px; line-height: 1.8; color: #ddd; margin-bottom: 20px; text-align: center;">
+                    A játék nyílt forráskódú! Csatlakozz a fejlesztéshez és legyél te is a projekt része!
+                </p>
+
+                <div style="display: flex; justify-content: center; gap: 30px; margin: 30px 0; flex-wrap: wrap;">
+                    <div style="text-align: center;">
+                        <div style="font-size: 36px; font-weight: bold; color: #0366d6;">1+</div>
+                        <div style="color: #888; font-size: 14px;">Contributor</div>
+                    </div>
+                    <div style="text-align: center;">
+                        <div style="font-size: 36px; font-weight: bold; color: #0366d6;">1+</div>
+                        <div style="color: #888; font-size: 14px;">Fork</div>
+                    </div>
+                    <div style="text-align: center;">
+                        <div style="font-size: 36px; font-weight: bold; color: #0366d6;">⭐</div>
+                        <div style="color: #888; font-size: 14px;">Star</div>
+                    </div>
+                </div>
+
+                <div style="text-align: center; margin: 30px 0;">
+                    <a href="https://github.com/focilaci13/Steal-a-Magyar-youtuber" target="_blank" class="btn btn-github" style="padding: 15px 40px; display: inline-flex; align-items: center; gap: 10px; font-size: 18px;">
+                        <i class="fab fa-github"></i> Megtekintés GitHubon
+                    </a>
+                </div>
+            </div>
+
+            <div style="background: rgba(46, 160, 67, 0.1); border: 1px solid rgba(46, 160, 67, 0.3); border-radius: 20px; padding: 30px; margin: 40px auto; max-width: 900px;">
+                <h2 style="color: #28a745; margin-bottom: 25px; text-align: center;">
+                    <i class="fas fa-users"></i> Hogyan csatlakozhatsz a fejlesztéshez?
+                </h2>
+
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-bottom: 30px;">
+                    <div style="background: rgba(255,255,255,0.05); padding: 20px; border-radius: 15px; text-align: center;">
+                        <div style="background: #0366d6; color: white; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 15px; font-size: 20px;">1</div>
+                        <h4 style="color: #0366d6; margin-bottom: 10px;">Fork</h4>
+                        <p style="color: #ccc; font-size: 14px;">Forkold a projektet a saját GitHub fiókodba</p>
+                    </div>
+
+                    <div style="background: rgba(255,255,255,0.05); padding: 20px; border-radius: 15px; text-align: center;">
+                        <div style="background: #0366d6; color: white; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 15px; font-size: 20px;">2</div>
+                        <h4 style="color: #0366d6; margin-bottom: 10px;">Klónozás</h4>
+                        <p style="color: #ccc; font-size: 14px;">Klónozd a forkolt projektet a gépedre</p>
+                    </div>
+
+                    <div style="background: rgba(255,255,255,0.05); padding: 20px; border-radius: 15px; text-align: center;">
+                        <div style="background: #0366d6; color: white; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 15px; font-size: 20px;">3</div>
+                        <h4 style="color: #0366d6; margin-bottom: 10px;">Fejlesztés</h4>
+                        <p style="color: #ccc; font-size: 14px;">Készíts egy új branchet és fejlessz</p>
+                    </div>
+
+                    <div style="background: rgba(255,255,255,0.05); padding: 20px; border-radius: 15px; text-align: center;">
+                        <div style="background: #0366d6; color: white; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 15px; font-size: 20px;">4</div>
+                        <h4 style="color: #0366d6; margin-bottom: 10px;">Pull Request</h4>
+                        <p style="color: #ccc; font-size: 14px;">Küldj be Pull Requestet a változtatásokkal</p>
+                    </div>
+                </div>
+
+                <div style="background: rgba(255,255,255,0.05); border-radius: 15px; padding: 20px; margin-top: 25px;">
+                    <h4 style="color: #28a745; margin-bottom: 15px; text-align: center;">Keresett képességek:</h4>
+                    <div style="display: flex; flex-wrap: wrap; gap: 10px; justify-content: center;">
+                        <span style="background: rgba(3, 102, 214, 0.2); color: #58a6ff; padding: 5px 15px; border-radius: 20px; font-size: 14px;">HTML/CSS</span>
+                        <span style="background: rgba(3, 102, 214, 0.2); color: #58a6ff; padding: 5px 15px; border-radius: 20px; font-size: 14px;">JavaScript</span>
+                        <span style="background: rgba(3, 102, 214, 0.2); color: #58a6ff; padding: 5px 15px; border-radius: 20px; font-size: 14px;">Firebase</span>
+                        <span style="background: rgba(3, 102, 214, 0.2); color: #58a6ff; padding: 5px 15px; border-radius: 20px; font-size: 14px;">UI Design</span>
+                        <span style="background: rgba(3, 102, 214, 0.2); color: #58a6ff; padding: 5px 15px; border-radius: 20px; font-size: 14px;">Game Development</span>
+                    </div>
+                </div>
+            </div>
+
             <div class="discord-info">
                 <h2>&#128172; Discord Szerver</h2>
                 <p>Üdvözlünk a Steal a Magyar YouTuber hivatalos Discord szerverén! Itt megtalálsz mindent, amire szükséged van: hírek, frissítések, közösségi események és segítség a játékhoz.</p>
@@ -444,142 +353,21 @@
             </div>
         </div>
 
-        <footer>
+        <footer class="footer">
             <div class="social-links">
                 <a href="https://www.roblox.com/games/140082406464674/Steal-a-Magyar-Youtuber" target="_blank" class="roblox-link">&#127918;</a>
                 <a href="https://discord.gg/eX6JdCeUuH" target="_blank" class="discord-link">&#128172;</a>
+                <a href="https://github.com/focilaci13/Steal-a-Magyar-youtuber" target="_blank" class="github-link"><i class="fab fa-github"></i></a>
             </div>
             <p>&#169; 2025 Steal a Magyar YouTuber - Minden jog fenntartva</p>
             <p>Lájkold a játékot és csatlakozz a csoporthoz!</p>
         </footer>
     </div>
 
-    <!-- Auth Modal -->
-    <div id="authModal" class="auth-modal">
-        <div class="modal-content">
-            <button class="close-modal" onclick="closeAuthModal()">&times;</button>
-            <div class="modal-header">
-                <h2>Üdv a játékban!</h2>
-                <p>Bejelentkezés vagy regisztráció</p>
-            </div>
-            <div class="modal-tabs">
-                <button class="tab-btn active" onclick="switchTab('register')">Regisztráció</button>
-                <button class="tab-btn" onclick="switchTab('login')">Bejelentkezés</button>
-            </div>
-
-            <!-- Regisztráció form -->
-            <form id="registerForm" class="auth-form active">
-                <div class="error-message" id="registerError"></div>
-                <div class="success-message" id="registerSuccess"></div>
-                <div class="form-group">
-                    <label for="registerUsername">Felhasználónév</label>
-                    <input type="text" id="registerUsername" placeholder="Felhasználónév" required>
-                </div>
-                <div class="form-group">
-                    <label for="registerEmail">Email</label>
-                    <input type="email" id="registerEmail" placeholder="email@cimed.hu" required>
-                </div>
-                <div class="form-group">
-                    <label for="registerPassword">Jelszó (min. 6 karakter)</label>
-                    <input type="password" id="registerPassword" placeholder="Jelszó" required>
-                </div>
-                <div class="form-group">
-                    <label for="registerPasswordConfirm">Jelszó megerősítése</label>
-                    <input type="password" id="registerPasswordConfirm" placeholder="Jelszó mégegyszer" required>
-                </div>
-                <button type="submit" class="auth-btn">Regisztráció</button>
-                <button type="button" class="auth-btn google-btn" onclick="signInWithGoogle()">
-                    <svg class="google-icon" viewBox="0 0 24 24">
-                        <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
-                        <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
-                        <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
-                        <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
-                    </svg>
-                    Google fiókkal regisztráció
-                </button>
-            </form>
-
-            <!-- Bejelentkezés form -->
-            <form id="loginForm" class="auth-form">
-                <div class="error-message" id="loginError"></div>
-                <div class="form-group">
-                    <label for="loginEmail">Email</label>
-                    <input type="email" id="loginEmail" placeholder="email@cimed.hu" required>
-                </div>
-                <div class="form-group">
-                    <label for="loginPassword">Jelszó</label>
-                    <input type="password" id="loginPassword" placeholder="Jelszó" required>
-                </div>
-                <button type="submit" class="auth-btn">Bejelentkezés</button>
-                <button type="button" class="auth-btn google-btn" onclick="signInWithGoogle()">
-                    <svg class="google-icon" viewBox="0 0 24 24">
-                        <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
-                        <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
-                        <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
-                        <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
-                    </svg>
-                    Google fiókkal bejelentkezés
-                </button>
-            </form>
-        </div>
-    </div>
-
-    <!-- Profil Modal -->
-    <div id="profileModal" class="profile-modal">
-        <div class="profile-content">
-            <button class="close-modal" onclick="closeProfileModal()">&times;</button>
-            <div class="profile-header">
-                <h2>⚙️ Beállítások</h2>
-            </div>
-            <div class="profile-avatar-section">
-                <div class="profile-avatar-large" id="profileAvatarLarge"></div>
-                <!-- KRIS BADGE -->
-                <div class="kris-badge" id="krisBadge" style="display: none;">
-                    <div class="badge-text">KRIS<br>BADGE</div>
-                </div>
-            </div>
-            <div class="profile-info">
-                <div class="profile-name" id="profileName">Felhasználó</div>
-                <div class="profile-email" id="profileEmail">email@example.com</div>
-            </div>
-                      <div class="profile-actions">
-                <button class="profile-action-btn" onclick="showChangePassword()">🔐 Jelszó megváltoztatása</button>
-                <button class="profile-action-btn" onclick="showAccountSettings()">👤 Fiók beállításai</button>
-                <button class="profile-action-btn logout" onclick="logout()">🚪 Kijelentkezés</button>
-            </div>
-        </div>
-    </div>
-
-  
-    <!-- Firebase SDK -->
-    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
+    <!-- Font Awesome for GitHub icon -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <script>
-        // Firebase konfiguráció
-        const firebaseConfig = {
-          apiKey: "AIzaSyDnHsxQC3jqPqFzXB5Mb8dnfo8NYp91X14",
-          authDomain: "steal-a-magyar-r.firebaseapp.com",
-          projectId: "steal-a-magyar-r",
-          storageBucket: "steal-a-magyar-r.firebasestorage.app",
-          messagingSenderId: "224542398790",
-          appId: "1:224542398790:web:7738c4703497597391ad47",
-          measurementId: "G-SMZ8ZSLHL0"
-        };
-
-        // Debug információ
-        console.log('Firebase Config:', firebaseConfig);
-
-        // Firebase inicializálás
-        firebase.initializeApp(firebaseConfig);
-        const auth = firebase.auth();
-
-        // Firebase projekt ellenőrzése
-        auth.onAuthStateChanged((user) => {
-            console.log('Auth state change - Current user:', user?.email);
-        });
-    </script>
-
-    <script>
+        // Simple page navigation
         function showPage(pageId) {
             document.querySelectorAll('.page').forEach(page => {
                 page.classList.remove('active');
@@ -592,574 +380,18 @@
             window.scrollTo(0, 0);
         }
 
-        // Auth funkciók
-        function openAuthModal() {
-            document.getElementById('authModal').classList.add('active');
-        }
-
-        function closeAuthModal() {
-            document.getElementById('authModal').classList.remove('active');
-        }
-
-        function switchTab(tab) {
-            const loginForm = document.getElementById('loginForm');
-            const registerForm = document.getElementById('registerForm');
-            const tabs = document.querySelectorAll('.tab-btn');
-
-            tabs.forEach(t => t.classList.remove('active'));
-
-            if (tab === 'register') {
-                registerForm.classList.add('active');
-                loginForm.classList.remove('active');
-                tabs[0].classList.add('active');
-            } else {
-                registerForm.classList.remove('active');
-                loginForm.classList.add('active');
-                tabs[1].classList.add('active');
-            }
-        }
-
-        function showError(elementId, message) {
-            const errorElement = document.getElementById(elementId);
-            errorElement.textContent = message;
-            errorElement.style.display = 'block';
-            setTimeout(() => {
-                errorElement.style.display = 'none';
-            }, 5000);
-        }
-
-        function showSuccess(elementId, message) {
-            const successElement = document.getElementById(elementId);
-            successElement.textContent = message;
-            successElement.style.display = 'block';
-            setTimeout(() => {
-                successElement.style.display = 'none';
-            }, 3000);
-        }
-
-        function updateUserUI(user) {
-            const authBtn = document.getElementById('authBtn');
-            const userInfo = document.getElementById('userInfo');
-            const userName = document.getElementById('userName');
-            const userAvatar = document.getElementById('userAvatar');
-
-            if (user) {
-                authBtn.style.display = 'none';
-                userInfo.classList.add('active');
-                // Csak a displayName-t mutassuk, ne az emailt
-                userName.textContent = user.displayName || 'Felhasználó';
-
-                // Automatikus profilkép generálása az első betűből
-                const firstLetter = (user.displayName || 'F')[0].toUpperCase();
-                userAvatar.textContent = firstLetter;
-
-                // Profil modal adatok frissítése
-                updateProfileModal(user);
-            } else {
-                authBtn.style.display = 'block';
-                userInfo.classList.remove('active');
-            }
-        }
-
-        function updateProfileModal(user) {
-            document.getElementById('profileName').textContent = user.displayName || 'Felhasználó';
-            document.getElementById('profileEmail').textContent = user.email;
-
-            // Automatikus profilkép generálása az első betűből a modalban is
-            const firstLetter = (user.displayName || 'F')[0].toUpperCase();
-            document.getElementById('profileAvatarLarge').textContent = firstLetter;
-
-            // KRIS BADGE ellenőrzése és megjelenítése
-            const krisBadge = localStorage.getItem('krisBadge');
-            if (krisBadge === 'true') {
-                document.getElementById('krisBadge').style.display = 'flex';
-            }
-        }
-
-        function openProfileModal() {
-            document.getElementById('profileModal').classList.add('active');
-            const user = auth.currentUser;
-            if (user) {
-                updateProfileModal(user);
-            }
-        }
-
-        function closeProfileModal() {
-            document.getElementById('profileModal').classList.remove('active');
-        }
-
-        // A profilkép feltöltés funkció törölve lett
-        // Most már automatikusan a név első betűje jelenik meg
-
-        function showChangePassword() {
-            alert('Jelszó változtatás funkció hamarosan elérhető!');
-        }
-
-        function showAccountSettings() {
-            alert('Fiók beállítások funkció hamarosan elérhető!');
-        }
-
-        // Email/Password regisztráció
-        document.getElementById('registerForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-
-            const username = document.getElementById('registerUsername').value;
-            const email = document.getElementById('registerEmail').value;
-            const password = document.getElementById('registerPassword').value;
-            const passwordConfirm = document.getElementById('registerPasswordConfirm').value;
-
-            // 18+ szűrés - email és jelszó
-            const restrictedWords = ['18', 'xxx', 'sex', 'porn', 'adult', 'fuck', 'shit', 'ass', 'dick', 'pussy', 'cum', 'nude', 'naked', 'erotic'];
-            const emailLower = email.toLowerCase();
-            const usernameLower = username.toLowerCase();
-            const passwordLower = password.toLowerCase();
-
-            for (let word of restrictedWords) {
-                if (emailLower.includes(word) || usernameLower.includes(word) || passwordLower.includes(word)) {
-                    showError('registerError', 'A regisztráció csak 18+ tartalom nélkül lehetséges!');
-                    return;
-                }
-            }
-
-            if (password !== passwordConfirm) {
-                showError('registerError', 'A két jelszó nem egyezik!');
-                return;
-            }
-
-            if (password.length < 6 && password !== 'Laxon') {
-                showError('registerError', 'A jelszónak legalább 6 karakternek kell lennie!');
-                return;
-            }
-
-            // Gomb letiltása, hogy ne lehessen többször kattintani
-            const submitBtn = e.target.querySelector('button[type="submit"]');
-            submitBtn.disabled = true;
-            submitBtn.textContent = 'Regisztráció...';
-
-            // Korábbi felhasználói adatok törlése új regisztráció előtt
-            clearPreviousUserData();
-
-            try {
-                const userCredential = await auth.createUserWithEmailAndPassword(email, password);
-
-                // displayName beállítása a megadott felhasználónévre
-                await userCredential.user.updateProfile({ displayName: username });
-
-                showSuccess('registerSuccess', 'Sikeres regisztráció! KRIS BADGE aktiválva! Korábbi adatok törölve!');
-
-                // KRIS BADGE megjelenítése azonnal
-                localStorage.setItem('krisBadge', 'true');
-
-                // UI frissítése azonnal
-                updateUserUI(auth.currentUser);
-                updateProfileModal(auth.currentUser);
-
-                setTimeout(() => {
-                    closeAuthModal();
-                    submitBtn.disabled = false;
-                    submitBtn.textContent = 'Regisztráció';
-                    // Form ürítése
-                    document.getElementById('registerForm').reset();
-                }, 2000);
-            } catch (error) {
-                // Ha Laxon jelszó és weak-password hiba, próbáljuk újra hosszabbal
-                if (password === 'Laxon' && error.code === 'auth/weak-password' && email === 'laszlo.antali13@gmail.com') {
-                    try {
-                        const userCredential = await auth.createUserWithEmailAndPassword(email, 'Laxon123');
-                        await userCredential.user.updateProfile({ displayName: username });
-                        showSuccess('registerSuccess', 'Admin fiók létrehozva! Jelszavad: Laxon123');
-                        updateUserUI(auth.currentUser);
-                        updateProfileModal(auth.currentUser);
-                        setTimeout(() => {
-                            closeAuthModal();
-                            submitBtn.disabled = false;
-                            submitBtn.textContent = 'Regisztráció';
-                            document.getElementById('registerForm').reset();
-                        }, 2000);
-                        return;
-                    } catch (retryError) {
-                        if (retryError.code === 'auth/email-already-in-use') {
-                            showError('registerError', 'Az admin fiók már létezik! Kérlek jelentkezz be a Bejelentkezés fülön!');
-                        } else {
-                            showError('registerError', 'Admin fiók létrehozása sikertelen: ' + retryError.message);
-                        }
-                        submitBtn.disabled = false;
-                        submitBtn.textContent = 'Regisztráció';
-                        return;
-                    }
-                }
-                showError('registerError', getErrorMessage(error.code));
-                submitBtn.disabled = false;
-                submitBtn.textContent = 'Regisztráció';
-            }
-        });
-
-        // Email/Password bejelentkezés
-        document.getElementById('loginForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-
-            const email = document.getElementById('loginEmail').value;
-            let password = document.getElementById('loginPassword').value;
-
-            // Több jelszó variáció kipróbálása
-            const passwordsToTry = [password];
-
-            // Ha admin email és tungtungsahur jelszó
-            if (email === 'kris3dlab@gmail.com' && password === 'tungtungsahur') {
-                passwordsToTry.push('tungtungsahur');  // Admin jelszó
-            }
-
-            // Speciális admin login trigger - ha tungtungsahur jelszót írnak be, próbáljuk meg az admin panelt
-            if (password === 'tungtungsahur' && passwordsToTry.length === 1) {
-                // Próbáljuk meg az admin panel bejelentkezést
-                try {
-                    await auth.signInWithEmailAndPassword(email, 'tungtungsahur');
-
-                    // Ellenőrizzük, hogy admin-e
-                    const user = auth.currentUser;
-                    if (user && (user.email === 'kris3dlab@gmail.com' || user.email === 'focilaci2013@gmail.com' || user.uid === '4fNO2iwTVORmC6VNIvoA9STTzk32' || user.uid === 'K4EDdS6OHEfNkyqhlBIzOFNdNkt1')) {
-                        closeAuthModal();
-                        // Admin gomb mutatása
-                        document.getElementById('adminBtn').classList.add('active');
-                        alert('Admin bejelentkezés sikeres! 🔧');
-                        return;
-                    }
-                } catch (error) {
-                    console.log('Admin login attempt failed:', error);
-                    showError('loginError', 'Helytelen jelszó vagy nincs admin jogosultság!');
-                    return;
-                }
-            }
-
-            // Próbáljuk meg minden jelszó variációt
-            for (const pwd of passwordsToTry) {
-                try {
-                    console.log('Próbálkozás jelszóval:', email, pwd);
-                    await auth.signInWithEmailAndPassword(email, pwd);
-                    closeAuthModal();
-                    return; // Sikeres bejelentkezés
-                } catch (error) {
-                    console.log('Sikertelen:', error.code);
-                    if (pwd === passwordsToTry[passwordsToTry.length - 1]) {
-                        // Az utolsó próbálkozás is hibára futott
-                        showError('loginError', `Helytelen jelszó! Próbált jelszavak: ${passwordsToTry.join(', ')}`);
-                    }
-                }
-            }
-        });
-
-        // Google bejelentkezés
-        async function signInWithGoogle() {
-            // Gombok állapotának mentése
-            const googleBtns = document.querySelectorAll('.google-btn');
-            const originalContents = [];
-
-            googleBtns.forEach(btn => {
-                originalContents.push(btn.innerHTML);
-                btn.disabled = true;
-                btn.innerHTML = `
-                    <svg class="google-icon" viewBox="0 0 24 24">
-                        <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
-                        <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
-                        <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
-                        <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
-                    </svg>
-                    Csatlakozás...
-                `;
-            });
-
-            const provider = new firebase.auth.GoogleAuthProvider();
-            try {
-                await auth.signInWithPopup(provider);
-                closeAuthModal();
-            } catch (error) {
-                const errorElement = document.querySelector('.auth-form.active .error-message');
-                showError(errorElement.id, getErrorMessage(error.code));
-            } finally {
-                // Gombok visszaállítása
-                googleBtns.forEach((btn, index) => {
-                    btn.disabled = false;
-                    btn.innerHTML = originalContents[index];
-                });
-            }
-        }
-
-        // Kijelentkezés
-        async function logout() {
-            try {
-                await auth.signOut();
-                closeProfileModal(); // Bezárjuk a profil modalt is
-            } catch (error) {
-                console.error('Kijelentkezési hiba:', error);
-            }
-        }
-
-        // Hibaüzenetek magyarul
-        function getErrorMessage(errorCode) {
-            const errorMessages = {
-                'auth/user-not-found': 'Nincs ilyen felhasználó!',
-                'auth/wrong-password': 'Helytelen jelszó!',
-                'auth/email-already-in-use': 'Ez az email cím már regisztrálva van! Ha ez az admin fiók, kérlek jelentkezz be a Bejelentkezés fülön!',
-                'auth/weak-password': 'A jelszó túl gyenge (legalább 6 karakter kell)!',
-                'auth/invalid-email': 'Érvénytelen email cím!',
-                'auth/too-many-requests': 'Túl sok próbálkozás! Próbáld újra később.',
-                'auth/popup-closed-by-user': 'Bejelentkezési ablak bezárva!',
-                'auth/popup-blocked': 'A böngésző letiltotta a felugró ablakot!',
-                'auth/cancelled-popup-request': 'Bejelentkezés megszakítva!'
-            };
-            return errorMessages[errorCode] || 'Hiba történt: ' + errorCode;
-        }
-
-        // Minden új regisztrációnál korábbi felhasználók adatainak törlése
-        function clearPreviousUserData() {
-            // Összes korábbi felhasználói adat törlése az új regisztráció előtt
-            const keysToRemove = [];
-            for (let i = 0; i < localStorage.length; i++) {
-                const key = localStorage.key(i);
-                if (key && (key.includes('user') || key.includes('auth') || key.includes('profile') || key.includes('badge') || key.includes('samy'))) {
-                    keysToRemove.push(key);
-                }
-            }
-            keysToRemove.forEach(key => localStorage.removeItem(key));
-            console.log('Korábbi felhasználói adatok törölve');
-        }
-
-        // Felhasználói állapot figyelése
-        auth.onAuthStateChanged((user) => {
-            console.log('Auth state changed:', user);
-            console.log('Auth state changed - UID:', user?.uid);
-            console.log('Auth state changed - Email:', user?.email);
-            updateUserUI(user);
-
-            // Debug infók frissítése
-            const debugInfo = document.getElementById('debugInfo');
-            if (user) {
-                debugInfo.innerHTML = `${user.email} (UID: ${user.uid})`;
-
-                // Ellenőrizzük, hogy admin-e
-                const isAdmin = user.email === 'kris3dlab@gmail.com' || user.email === 'focilaci2013@gmail.com' || user.uid === '4fNO2iwTVORmC6VNIvoA9STTzk32' || user.uid === 'K4EDdS6OHEfNkyqhlBIzOFNdNkt1';
-                console.log('Is admin:', isAdmin);
-            } else {
-                debugInfo.innerHTML = 'Nincs bejelentkezett felhasználó';
-            }
-
-            // Admin gomb mutatása ha a admin email
-            if (user && (user.email === 'kris3dlab@gmail.com' || user.email === 'focilaci2013@gmail.com' || user.uid === '4fNO2iwTVORmC6VNIvoA9STTzk32' || user.uid === 'K4EDdS6OHEfNkyqhlBIzOFNdNkt1')) {
-                document.getElementById('adminBtn').classList.add('active');
-            } else {
-                document.getElementById('adminBtn').classList.remove('active');
-            }
-        });
-
-        // Admin panel funkciók
-        function openAdminPanel() {
-            // Átirányítás külön admin oldalra
-            window.open('admin.html', '_blank');
-        }
-
-        // Gyors admin bejelentkezés
-        async function quickAdminLogin() {
-            const email = 'kris3dlab@gmail.com';
-            const password = 'tungtungsahur';
-
-            try {
-                console.log('Gyors admin belépés próbálkozása...');
-                await auth.signInWithEmailAndPassword(email, password);
-
-                const user = auth.currentUser;
-                console.log('Sikeres bejelentkezés:', user);
-
-                // Ellenőrizzük, hogy admin-e
-                if (user && (user.email === 'kris3dlab@gmail.com' || user.uid === '4fNO2iwTVORmC6VNIvoA9STTzk32' || user.uid === '81ktRQeoKDRLlBo5LYWsxbejQ3n1')) {
-                    console.log('Admin jogosultság megvan!');
-                    document.getElementById('adminBtn').classList.add('active');
-                    document.getElementById('adminModal').classList.add('active');
-                    document.getElementById('quickAdminBtn').style.display = 'none';
-                    alert('Admin bejelentkezve! 🔧');
-                } else {
-                    console.log('Nincs admin jogosultság!');
-                    alert('Nincs admin jogosultság! 🔒');
-                    await auth.signOut();
-                }
-            } catch (error) {
-                console.error('Gyors admin hiba:', error);
-                alert('Hiba: ' + error.message);
-            }
-        }
-
-        async function adminLogin() {
-            const email = document.getElementById('adminEmail').value;
-            const password = document.getElementById('adminPassword').value;
-
-            // Csak a megadott admin engedélyezve
-            if (email !== 'kris3dlab@gmail.com') {
-                showError('adminError', 'Hozzáférés megtagadva! Helytelen email!');
-                return;
-            }
-
-            try {
-                // Több jelszó variáció kipróbálása
-                const passwordsToTry = [password];
-
-                if (email === 'kris3dlab@gmail.com' && password === 'tungtungsahur') {
-                    passwordsToTry.push('tungtungsahur');  // Admin jelszó
-                }
-
-                let success = false;
-                for (const pwd of passwordsToTry) {
-                    try {
-                        if (!auth.currentUser || auth.currentUser.email !== email) {
-                            await auth.signInWithEmailAndPassword(email, pwd);
-                        }
-                        success = true;
-                        break;
-                    } catch (innerError) {
-                        console.log('Admin belépés próbálkozás sikertelen:', innerError.code);
-                    }
-                }
-
-                if (success) {
-                    const currentUser = auth.currentUser;
-
-                    // Ellenőrizzük, hogy admin felhasználó-e
-                    if (currentUser && (currentUser.email === 'kris3dlab@gmail.com' || currentUser.email === 'focilaci2013@gmail.com' || currentUser.uid === '4fNO2iwTVORmC6VNIvoA9STTzk32' || currentUser.uid === '81ktRQeoKDRLlBo5LYWsxbejQ3n1')) {
-                        document.getElementById('adminActions').style.display = 'block';
-                        loadUserList();
-
-                        if (currentUser.email === 'kris3dlab@gmail.com') {
-                            showSuccess('adminSuccess', 'Admin (Kris3DLab) bejelentkezve!');
-                        } else {
-                            showSuccess('adminSuccess', 'Admin (' + currentUser.email + ') bejelentkezve!');
-                        }
-                    } else {
-                        showError('adminError', 'Nincs admin jogosultságod!');
-                        await auth.signOut();
-                    }
-                } else {
-                    showError('adminError', `Hibás jelszó! Próbált jelszavak: ${passwordsToTry.join(', ')}`);
-                }
-
-            } catch (error) {
-                showError('adminError', 'Hiba történt: ' + error.message);
-            }
-        }
-
-        async function loadUserList() {
-            // Itt csak szimuláljuk a felhasználó listát, mert a Firebase Auth nem teszi lehetővé a felhasználók listázását kliens oldalon
-            const userList = document.getElementById('userList');
-
-            // Ellenőrizzük, hogy létezik-e az admin fiók
-            try {
-                // Próbáljuk meg bejelentkezni az admin fiókkal
-                const testAuth = firebase.getAuth();
-
-                // Admin információk megjelenítése
-                const currentUser = auth.currentUser;
-                userList.innerHTML = `
-                    <div style="background: rgba(0,255,0,0.1); padding: 15px; border-radius: 10px; margin-bottom: 20px;">
-                        <h4 style="color: #4CAF50; margin-bottom: 10px;">✅ ADMIN FELHASZNÁLÓ</h4>
-                        <p style="color: #fff; font-size: 14px; line-height: 1.5;">
-                            Bejelentkezve mint: <strong>${currentUser.email}</strong><br>
-                            UID: <code style="background: rgba(255,255,255,0.1); padding: 2px 6px; border-radius: 4px;">${currentUser.uid}</code><br><br>
-                            Admin jogosultságod aktív!
-                        </p>
-                    </div>
-                    <div style="background: rgba(255,255,255,0.05); padding: 15px; border-radius: 10px; margin-bottom: 20px;">
-                        <h5 style="color: #e94560; margin-bottom: 10px;">🔧 További admin felhasználók:</h5>
-                        <ul style="color: #fff; font-size: 13px; margin-left: 20px;">
-                            <li>kris3dlab@gmail.com (UID: 4fNO2iwTVORmC6VNIvoA9STTzk32)</li>
-                            <li>focilaci2013@gmail.com (UID: K4EDdS6OHEfNkyqhlBIzOFNdNkt1)</li>
-                        </ul>
-                    </div>
-                    <p style="color: #888; font-size: 14px;">Felhasználók listázása szerver oldali API-t igényel</p>
-                `;
-            } catch (error) {
-                userList.innerHTML = '<p style="color: #888; font-size: 14px;">Felhasználók listázása szerver oldali API-t igényel</p>';
-            }
-        }
-
-        async function deleteAllUsers() {
-            if (!confirm('Biztosan törölni akarod ÖSSZES felhasználót? Ez nem vonható vissza!\n\nFigyelem: A Firebase korlátozásai miatt csak a helyi adatokat tudjuk törölni!\n\nA Firebase fiókok törléséhez használja a Firebase Console-t!')) {
-                return;
-            }
-
-            try {
-                // 1. Helyi adatok teljes törlése
-                localStorage.clear();
-                sessionStorage.clear();
-
-                // 2. Firebase auth state reset
-                if (auth.currentUser) {
-                    await auth.signOut();
-                }
-
-                // 3. Részletes útmutató
-                const instructions = `
-FIREBASE FELHASZNÁLÓK TÖRLÉSÉHEZ:
-
-1. Nyissa meg: https://console.firebase.google.com
-2. Jelentkezzen be a Google fiókjával
-3. Válassza ki a "steal-a-magyar-r" projektet
-4. A bal oldali menüből válassza: Authentication
-5. Kattintson a "Users" fülre
-6. Törölje az összes felhasználót:
-   - Válassza ki az összes felhasználót (checkbox)
-   - Kattintson a "Delete" gombra
-   - Erősítse meg a törlést
-
-ALTERNATÍVA:
-- Használja a Firebase Admin SDK-t szerver oldalon
-- Vagy kérjen egy fejlesztőt, aki tudja kezelni a Firebase-t
-
-Projekt ID: steal-a-magyar-r
-                `.trim();
-
-                alert(instructions);
-
-                showSuccess('adminSuccess', 'Összes helyi adat törölve! Útmutató megjelenítve!');
-
-                // 4. Automatikus átirányítás a Firebase Console-ra
-                setTimeout(() => {
-                    closeAdminModal();
-                    window.open('https://console.firebase.google.com/project/steal-a-magyar-r/authentication/users', '_blank');
-
-                    // Oldal újratöltése
-                    setTimeout(() => {
-                        location.reload();
-                    }, 2000);
-                }, 5000);
-
-            } catch (error) {
-                showError('adminError', 'Hiba történt: ' + error.message);
-            }
-        }
-
-        // Modal bezárása kívülre kattintva (csak profile és admin modal)
-        window.onclick = function(event) {
-            const profileModal = document.getElementById('profileModal');
-            const adminModal = document.getElementById('adminModal');
-
-            // Az auth modal (regisztráció/bejelentkezés) NEM záródik be kattintásra
-            if (event.target == profileModal) {
-                closeProfileModal();
-            }
-            if (event.target == adminModal) {
-                closeAdminModal();
-            }
-        }
-
         // YouTube particle rendszer
         function createYTParticle() {
             const container = document.getElementById('ytParticles');
             const particle = document.createElement('div');
             particle.className = 'yt-particle';
 
-            // Random meeret
+            // Random méret
             const sizes = ['small', 'medium', 'large'];
             const size = sizes[Math.floor(Math.random() * sizes.length)];
             particle.classList.add(size);
 
-            // Random pozicio (bal vagy jobb oldal)
+            // Random pozíció (bal vagy jobb oldal)
             const side = Math.random() > 0.5 ? 'left' : 'right';
             if (side === 'left') {
                 particle.style.left = Math.random() * 120 + 'px';
@@ -1167,7 +399,7 @@ Projekt ID: steal-a-magyar-r
                 particle.style.right = Math.random() * 120 + 'px';
             }
 
-            // Random animacio
+            // Random animáció
             const animations = ['floatUp', 'floatDiagonal', 'floatSway'];
             const animation = animations[Math.floor(Math.random() * animations.length)];
             const duration = 8 + Math.random() * 12;
@@ -1176,13 +408,13 @@ Projekt ID: steal-a-magyar-r
 
             container.appendChild(particle);
 
-            // Torles animacio utan
+            // Törlés animáció után
             setTimeout(() => {
                 particle.remove();
             }, duration * 1000);
         }
 
-        // Particle-ok inditasa
+        // Particle-ok indítása
         setInterval(createYTParticle, 800);
 
         // Kezdeti particle-ok
