@@ -1,4 +1,4 @@
-# Steal a Magyar YouTuber
+# Sunn Shop
 
 ## Hoszting információk
 - **Eredeti hoszting:** Netlify (eltávolítva)
