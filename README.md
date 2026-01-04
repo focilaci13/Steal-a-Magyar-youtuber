@@ -3,7 +3,8 @@
 ## Hoszting információk
 - **Eredeti hoszting:** Netlify (eltávolítva)
 - **Új hoszting:** GitHub Pages
-- **Élő URL:** https://focilaci13.github.io/(Official)_Magyar_Trade/
+- **Élő URL:** https://focilaci13.github.io/Steal-Magyar-youtuber/
+
 
 ## Telepítés helyi szerveren
 1. Klónozás: `git clone https://github.com/focilaci13/Steal-a-Magyar-youtuber.git`
